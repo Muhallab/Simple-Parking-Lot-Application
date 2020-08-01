@@ -1,0 +1,4 @@
+Vehicle Type: CAR
+License Plate: km
+Ticket Number: 2061457599
+Issue Time: 2020/07/31 20:18:20

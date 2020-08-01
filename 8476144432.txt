@@ -1,0 +1,4 @@
+Vehicle Type: VAN
+License Plate: hola
+Ticket Number: Ticket Number: 8476144432
+Issue Time: 2020/07/31 20:16:53
