@@ -14,6 +14,8 @@ public class Van extends Vehicle {
     public Van(String licensePlate) {
     super(VehicleType.VAN, licensePlate);
   }
-
+    public Van(String licensePlate, long ticketNumber) {
+        super(VehicleType.VAN, licensePlate, ticketNumber);
+      }
     
 }

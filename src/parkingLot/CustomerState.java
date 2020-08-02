@@ -24,8 +24,12 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Control;
 import javafx.scene.control.Label;
+import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
+import javafx.scene.control.ToggleGroup;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.VBox;
 import javafx.scene.shape.Line;
 import javafx.scene.text.Font;
 
@@ -34,35 +38,71 @@ import javafx.scene.text.Font;
  * @author almuh
  */
 class CustomerState extends AppState {
-    Vehicle vehicle;
+    Vehicle vehicle = new Vehicle(Vehicle.VehicleType.CAR, "temp", 0000L) {
+    };
     Scene customerScene;
-    double Balance;
+    long Balance;
     
+    @Override
     public void setGUI(ParkingApp app){
         Pane customerPane = new Pane();
-        customerScene = new Scene(customerPane,200,200);
-        
+        customerScene = new Scene(customerPane,430,300);
+        File file = ParkingApp.getSingletonExitPanel().currentMemberFile;
+        vehicle = vehicle.getVehicleWithTicketNumber(Long.parseLong(file.getName().replace(".txt", ""))); 
         Label customarScreenLabe = new Label();
-		setDimensions(customarScreenLabe, 10, 0, 280, customerPane);
+		setDimensions(customarScreenLabe, 10, 0, 400, customerPane);
 		customarScreenLabe.setText("Vehicle with license plate\"" + vehicle.getLicensePlate() + "\" Account Center");
 		customarScreenLabe.setAlignment(Pos.CENTER);
 		customarScreenLabe.setFont(new Font("Calibri", 20));
 		
 		Line topLineBreak = new Line();
 		topLineBreak.setStartX(0);
-		topLineBreak.setEndX(300);
+		topLineBreak.setEndX(430);
 		topLineBreak.setStartY(35);
 		topLineBreak.setEndY(35);
 		customerPane.getChildren().add(topLineBreak);
                 
                 Label balanceLabel = new Label();
-		setDimensions(balanceLabel, 10, 50, 135, customerPane);
+		setDimensions(balanceLabel, 30, 50, 300, customerPane);
 		balanceLabel.setText("Current balance to be paid is $" + Balance);
 		balanceLabel.setAlignment(Pos.CENTER_RIGHT);
 		balanceLabel.setFont(new Font("Calibri", 20));
                 
+                HBox root = new HBox(20);
+                VBox type = new VBox(10);
+                ToggleGroup typeSelect = new ToggleGroup();
+                RadioButton credit = new RadioButton();
+                credit.setText("Credit");
+                credit.setUserData("Credit");
+                credit.setToggleGroup(typeSelect);
+                credit.setSelected(true);
+                RadioButton cash = new RadioButton();
+                cash.setText("Cash");
+                cash.setUserData("Cash");
+                cash.setToggleGroup(typeSelect);
+                cash.setSelected(false);
+                RadioButton paid = new RadioButton();
+                paid.setText("Paid already");
+                paid.setUserData("Paid");
+                paid.setToggleGroup(typeSelect);
+                paid.setSelected(false);
+                type.getChildren().addAll(credit, cash, paid);
+                Label customarScreenLabel = new Label();
+//		setDimensions(customarScreenLabel, 10, 300, 280, customerPane);
+		customarScreenLabel.setText("Choose your payment method");
+//		customarScreenLabel.setAlignment(Pos.BOTTOM_LEFT);
+		customarScreenLabel.setFont(new Font("Calibri", 20));
+                root.relocate(30, 120);
+                root.getChildren().addAll(customarScreenLabel, type);
+                customerPane.getChildren().add(root);
                 
-        
+                Button pay = new Button("Proceed");
+//                pay.setOnAction(new );
+                setDimensions(pay, 50, 230, 300, customerPane);
+                
+                app.stage2.setTitle("Customer Screen");
+		app.stage2.setScene(customerScene);
+                app.stage2.show();
     }
 
     private void setDimensions(Control c, int positionX, int positionY, int width, Pane pane){

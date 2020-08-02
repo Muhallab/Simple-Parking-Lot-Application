@@ -13,6 +13,7 @@ import java.util.ArrayList;
  */
 class ParkingFloor {
     static ArrayList<ParkingFloor> floors = new ArrayList<>();
+    static int spotNumber;
     int floorNumber;
     int maxSpots;
     int availableSpots;
@@ -20,10 +21,34 @@ class ParkingFloor {
     
     ParkingFloor(int floorNumber){
         this.floorNumber = floorNumber;
+        floors.add(this);
+        spotNumber = 1;
+        for(int spots=0; spots<20 ;spots++){
+            ParkingSpot compactParkingSpots = new CompactSpot(this.getFloorNumber() + spotNumber, floorNumber);
+            spotNumber++;
+        }
+         for(int spots=0; spots<10 ;spots++){
+            ParkingSpot compactParkingSpots = new MotorBikeSpot(this.getFloorNumber() + spotNumber, floorNumber);
+            spotNumber++;
+        }
+        for(int spots=0; spots<10 ;spots++){
+            ParkingSpot compactParkingSpots = new LargeSpot(this.getFloorNumber() + spotNumber, floorNumber);
+            spotNumber++;
+        }
+        for(int spots=0; spots<10 ;spots++){
+            ParkingSpot compactParkingSpots = new HandicappedSpot(this.getFloorNumber() + spotNumber, floorNumber);
+            spotNumber++;
+        }
+        for(int spots=0; spots<10 ;spots++){
+            ParkingSpot compactParkingSpots = new ElectricSpot(this.getFloorNumber() + spotNumber, floorNumber);
+            spotNumber++;
+        }
+        this.maxSpots = spotNumber;
+        this.availableSpots = spotNumber;
     }
 
     public boolean isFull(){
-        if(maxSpots-availableSpots>0){
+        if(maxSpots-availableSpots<maxSpots){
             return true;
         }
         else return false;

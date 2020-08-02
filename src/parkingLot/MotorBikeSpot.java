@@ -10,8 +10,8 @@ package parkingLot;
  * @author almuh
  */
 public class MotorBikeSpot extends ParkingSpot {
-    public MotorBikeSpot(int number, int floorNumber, ParkingSpotType type) {
-            super(number, floorNumber, type);
+    public MotorBikeSpot(int number, int floorNumber) {
+            super(number, floorNumber, ParkingSpotType.MOTORBIKE);
         }
 
         @Override

@@ -5,7 +5,10 @@
  */
 package parkingLot;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
@@ -29,6 +32,8 @@ import static java.time.LocalDateTime.now;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.control.Alert;
@@ -43,12 +48,11 @@ import javafx.util.converter.LocalDateTimeStringConverter;
  */
 public class RegistrationState extends AppState {
     Vehicle vehicle;
-    ParkingTicket ticket;
     Scene RegistrationScene;
-    ArrayList<Vehicle> vehicles = new ArrayList<>();
 
     
     public void setGUI(ParkingApp app){
+       
         Pane customerPane = new Pane();
         RegistrationScene = new Scene(customerPane,400,300);
          DateTimeFormatter date = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");  
@@ -122,20 +126,20 @@ public class RegistrationState extends AppState {
         }
         @Override
         public void handle(ActionEvent e) {
-                addVehicle(makeVehicle((Vehicle.VehicleType) typeSelect.getSelectedToggle().getUserData(), licensePlate.getText()));
-                File file = new File(ParkingApp.getSingletonMain().currentDirectory + licensePlate.getText()+ ".txt");
+                makeVehicle((Vehicle.VehicleType) typeSelect.getSelectedToggle().getUserData(), licensePlate.getText());
+                File file = new File(ParkingApp.getSingletonMain().currentDirectory + vehicle.getTicket().getTicketNumber()+ ".txt");
                 if(file.exists()){
-					Alert duplicateUserError = new Alert(Alert.AlertType.NONE, "Vehicle registration failed - Car with the same License Plate is already registered", ButtonType.OK);
+					Alert duplicateUserError = new Alert(Alert.AlertType.NONE, "Vehicle registration failed - Please try again", ButtonType.OK);
 					duplicateUserError.setTitle("Vehicle registration Attempt Detected");
 					duplicateUserError.showAndWait();
 				}
                 else{
 					try{
-						List<String> lines = Arrays.asList(vehicle.toString());
+						List<String> lines = Arrays.asList(vehicle.getLicensePlate() + "\n" + vehicle.getType() + "\n"+ vehicle.getTicket().getIssueTime());
 						Path path = Paths.get(ParkingApp.getSingletonMain().currentDirectory + vehicle.getTicket().getTicketNumber()+ ".txt");
 						Files.write(path, lines, StandardCharsets.UTF_8);
                                                 DateTimeFormatter date = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");  
-						Alert userCreationSuccess = new Alert(Alert.AlertType.NONE, "Vehicle registration success - Vehicle entered parking lot at " + LocalDateTime.now().format(date), ButtonType.OK);
+						Alert userCreationSuccess = new Alert(Alert.AlertType.NONE, "Vehicle registration success - Vehicle entered parking lot at " + LocalDateTime.now().format(date) + "\nTicketNumber: " + vehicle.getTicket().getTicketNumber(), ButtonType.OK);
 						userCreationSuccess.setTitle("Account Creation Attempt Detected");
 						userCreationSuccess.showAndWait();
 					}catch(IOException error){
@@ -147,41 +151,76 @@ public class RegistrationState extends AppState {
 //                ParkingApp.getSingleton().setState(new RegistrationState());        
         }
 }
-    public void addVehicle(Vehicle vehicle){
-    vehicles.add(vehicle);
-    for(Vehicle v : vehicles){
-        System.out.println(v.toString() + "\n");
-        }; 
-  }
+//    public void readFiles() throws IOException{
+//        File folder = new File(ParkingApp.getSingletonMain().currentDirectory);
+//        File[] listOfFiles = folder.listFiles();
+//        String tempVehicleType = null;
+//        String tempLicensePlate = null;
+//        for (int i = 0; i < listOfFiles.length; i++) {
+//        File file = listOfFiles[i];
+//        if (file.isFile() && file.getName().endsWith(".txt")) {
+//            try {
+//                BufferedReader reader = new BufferedReader(new FileReader(file));
+//                tempLicensePlate = reader.readLine();
+//                tempVehicleType = reader.readLine().toUpperCase();
+//                System.out.println("tempLicenece plate: " + tempLicensePlate + "\ntempVehicleType: " + tempVehicleType);
+//            } catch (FileNotFoundException ex) {
+//                Logger.getLogger(RegistrationState.class.getName()).log(Level.SEVERE, null, ex);
+//            }
+//            makeVehicle(tempVehicleType,tempLicensePlate,Long.parseLong(file.getName().replace(".txt", "")));
+//        }
+//        }}
+//    public void addVehicle(Vehicle vehicle){
+//    vehicles.add(vehicle);
+//    for(Vehicle v : vehicles){
+//        System.out.println(v.toString() + "\n");
+//        }; }
+  
+//    public Vehicle makeVehicle(String type, String licensePlate,long ticketNumbr){
+//      if(type.equals("CAR")){
+//          vehicle = new Car(licensePlate);
+//          return vehicle;
+//      }
+//      else if(type.equals("VAN")){
+//          vehicle = new Van(licensePlate);
+//          return vehicle;
+//      }
+//      else if(type.equals("TRUCK")){
+//          vehicle = new Truck(licensePlate);
+//          return vehicle;
+//      }
+//      else if(type.equals("ELECTRIC")){
+//          vehicle = new Electric(licensePlate);
+//          return vehicle;
+//      }
+//      else if(type.equals("MOTORBIKE")){
+//          vehicle = new MotorBike(licensePlate);
+//          return vehicle;
+//      }
+//      else{
+//          System.out.println("No Valid Vehicle Type Entered");
+//          return null;
+//      }
+//    }
     public Vehicle makeVehicle(Vehicle.VehicleType type, String licensePlate){
       if(type.equals(Vehicle.VehicleType.CAR)){
           vehicle = new Car(licensePlate);
-          ticket = new ParkingTicket();
-          vehicle.setTicket(ticket);
           return vehicle;
       }
       else if(type.equals(Vehicle.VehicleType.VAN)){
           vehicle = new Van(licensePlate);
-          ticket = new ParkingTicket();
-          vehicle.setTicket(ticket);
           return vehicle;
       }
       else if(type.equals(Vehicle.VehicleType.TRUCK)){
           vehicle = new Truck(licensePlate);
-          ticket = new ParkingTicket();
-          vehicle.setTicket(ticket);
           return vehicle;
       }
       else if(type.equals(Vehicle.VehicleType.ELECTRIC)){
           vehicle = new Electric(licensePlate);
-          ticket = new ParkingTicket();
-          vehicle.setTicket(ticket);
           return vehicle;
       }
       else if(type.equals(Vehicle.VehicleType.MOTORBIKE)){
           vehicle = new MotorBike(licensePlate);
-          ticket = new ParkingTicket();
-          vehicle.setTicket(ticket);
           return vehicle;
       }
       else{

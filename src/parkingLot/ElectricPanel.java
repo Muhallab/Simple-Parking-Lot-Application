@@ -9,12 +9,6 @@ package parkingLot;
  *
  * @author almuh
  */
-public class Car extends Vehicle{
+public class ElectricPanel {
     
-    public Car(String licensePlate) {
-    super(VehicleType.CAR, licensePlate);
-  }
-    public Car(String licensePlate, long ticketNumber) {
-    super(VehicleType.CAR, licensePlate, ticketNumber);
-  }
 }

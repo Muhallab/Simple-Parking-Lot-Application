@@ -69,7 +69,7 @@ public class ManagerState extends AppState{
 		Button createUserButton = new Button();
 		setDimensions(createUserButton, 10, 130, 280, managerPane);
 		createUserButton.setText("Delete Ticket");
-//		createUserButton.setOnAction(new createUserEventHandler(usernameField, passwordField));
+		createUserButton.setOnAction(new deleteUserEventHandler(ticketNumberField));
 		
 		Button deleteUserButton = new Button();
 		setDimensions(deleteUserButton, 10, 160, 280, managerPane);
@@ -134,21 +134,21 @@ public class ManagerState extends AppState{
 	}
 	
 	private static class deleteUserEventHandler implements EventHandler<ActionEvent> {
-		private final TextField usernameField;
-		public deleteUserEventHandler(TextField usernameField) {
-			this.usernameField = usernameField;
+		private final TextField ticketNumber;
+		public deleteUserEventHandler(TextField ticketNumber) {
+			this.ticketNumber = ticketNumber;
 		}
 		@Override
 		public void handle(ActionEvent e) {
-			File file = new File(ParkingApp.getSingletonMain().currentDirectory + usernameField.getText() + ".txt");
+			File file = new File(ParkingApp.getSingletonMain().currentDirectory + ticketNumber.getText() + ".txt");
 			if(file.exists()){
 				file.delete();
-				Alert userDeletionSuccess = new Alert(Alert.AlertType.NONE, "User deletion success - User file deleted", ButtonType.OK);
-				userDeletionSuccess.setTitle("Account Deletion Attempt Detected");
+				Alert userDeletionSuccess = new Alert(Alert.AlertType.NONE, "Ticket deletion success - Ticket file deleted", ButtonType.OK);
+				userDeletionSuccess.setTitle("Ticket Deletion Attempt Detected");
 				userDeletionSuccess.showAndWait();
 			}else{
-				Alert userNotFoundError = new Alert(Alert.AlertType.NONE, "User deletion failed - User not found", ButtonType.OK);
-				userNotFoundError.setTitle("Account Deletion Attempt Detected");
+				Alert userNotFoundError = new Alert(Alert.AlertType.NONE, "Ticket deletion failed - Ticket not found", ButtonType.OK);
+				userNotFoundError.setTitle("Ticket Deletion Attempt Detected");
 				userNotFoundError.showAndWait();
 			}
 		}

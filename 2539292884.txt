@@ -1,4 +1,0 @@
-Vehicle Type: TRUCK
-License Plate: Ayo
-Ticket Number: Ticket Number: 2539292884
-Issue Time: 2020/07/31 20:17:21

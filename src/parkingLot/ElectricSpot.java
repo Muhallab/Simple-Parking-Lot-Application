@@ -10,8 +10,11 @@ package parkingLot;
  * @author almuh
  */
 public class ElectricSpot extends ParkingSpot {
+        ElectricPanel panel;
      public ElectricSpot(int number, int floorNumber) {
             super(number, floorNumber, ParkingSpotType.ELECTRIC);
+            panel = new ElectricPanel();
+
         }
 
         @Override

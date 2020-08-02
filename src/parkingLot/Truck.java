@@ -14,5 +14,7 @@ public class Truck extends Vehicle {
     public Truck(String licensePlate) {
     super(VehicleType.TRUCK, licensePlate);
   }
-    
+    public Truck(String licensePlate, long ticketNumber) {
+    super(VehicleType.TRUCK, licensePlate, ticketNumber);
+  }
 }

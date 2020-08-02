@@ -14,5 +14,8 @@ public class MotorBike extends Vehicle {
     public MotorBike(String licensePlate) {
     super(VehicleType.MOTORBIKE, licensePlate);
   }
+    public MotorBike(String licensePlate, long ticketNumber) {
+    super(VehicleType.MOTORBIKE, licensePlate, ticketNumber);
+  }
     
 }

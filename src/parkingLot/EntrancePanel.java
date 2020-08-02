@@ -7,8 +7,11 @@ package parkingLot;
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.scene.text.Font;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -31,9 +34,15 @@ import javafx.scene.shape.Line;
  */
 public class EntrancePanel extends AppState {
     Scene loginScene;
-	
+        Vehicle vehicle;
+    
 	@Override
 	public void setGUI(ParkingApp app){
+             try {
+                readFiles();
+                } catch (IOException ex) {
+                Logger.getLogger(RegistrationState.class.getName()).log(Level.SEVERE, null, ex);
+                 }
 		Pane loginPane = new Pane();
 		
 		Label loginScreenLable = new Label();
@@ -103,9 +112,6 @@ public class EntrancePanel extends AppState {
 
         @Override
         public void handle(ActionEvent e) {
-//                Alert managerAttemptSuccess = new Alert(AlertType.NONE, "Ticket Purchased", ButtonType.OK);
-//		managerAttemptSuccess.setTitle("Welcome");
-//		managerAttemptSuccess.showAndWait();
                 ParkingApp.getSingletonMain().setState(new RegistrationState());        }
     
 }
@@ -132,7 +138,45 @@ public class EntrancePanel extends AppState {
 			}
 		}
 	}
-	
+        public void makeVehicle(String type, String licensePlate,long ticketNumbr){
+      if(type.equals("CAR")){
+          vehicle = new Car(licensePlate, ticketNumbr);
+      }
+      else if(type.equals("VAN")){
+          vehicle = new Van(licensePlate, ticketNumbr);
+      }
+      else if(type.equals("TRUCK")){
+          vehicle = new Truck(licensePlate, ticketNumbr);
+      }
+      else if(type.equals("ELECTRIC")){
+          vehicle = new Electric(licensePlate, ticketNumbr);
+      }
+      else if(type.equals("MOTORBIKE")){
+          vehicle = new MotorBike(licensePlate, ticketNumbr);
+      }
+      else{
+          System.out.println("No Valid Vehicle Type Entered");
+      }
+    }
+	public void readFiles() throws IOException{
+        File folder = new File(ParkingApp.getSingletonMain().currentDirectory);
+        File[] listOfFiles = folder.listFiles();
+        String tempVehicleType = null;
+        String tempLicensePlate = null;
+        for (int i = 0; i < listOfFiles.length; i++) {
+        File file = listOfFiles[i];
+        if (file.isFile() && file.getName().endsWith(".txt")) {
+            try {
+                BufferedReader reader = new BufferedReader(new FileReader(file));
+                tempLicensePlate = reader.readLine();
+                tempVehicleType = reader.readLine().toUpperCase();
+//                System.out.println("tempLicenece plate: " + tempLicensePlate + "\ntempVehicleType: " + tempVehicleType);
+            } catch (FileNotFoundException ex) {
+                Logger.getLogger(RegistrationState.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            makeVehicle(tempVehicleType,tempLicensePlate,Long.parseLong(file.getName().replace(".txt", "")));
+        }
+        }}
 	private static void setDimensions(Control c, int positionX, int positionY, int width, Pane pane){
 		c.setMaxHeight(30);
 		c.setMinHeight(30);

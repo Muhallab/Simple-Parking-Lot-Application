@@ -43,7 +43,11 @@ class ParkingTicket {
         issueTime = LocalDateTime.now();
         status = parkingStatus.Active;
     }
-        
+    public ParkingTicket(long ticketNumber){
+        this.ticketNumber = ticketNumber;
+        issueTime = LocalDateTime.now();
+        status = parkingStatus.Active;
+    }   
     
     public boolean pay(double paidAmount) {
         price = price - paidAmount;
