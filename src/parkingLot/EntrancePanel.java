@@ -5,11 +5,13 @@
  */
 package parkingLot;
 
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.time.format.DateTimeFormatter;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.scene.text.Font;
@@ -28,6 +30,13 @@ import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.shape.Line;
+import java.util.Date;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import static java.time.temporal.TemporalQueries.localDate;
+import javafx.util.converter.LocalDateTimeStringConverter;
 /**
  *
  * @author almuh
@@ -42,7 +51,9 @@ public class EntrancePanel extends AppState {
                 readFiles();
                 } catch (IOException ex) {
                 Logger.getLogger(RegistrationState.class.getName()).log(Level.SEVERE, null, ex);
-                 }
+                 } catch (ParseException ex) {
+            Logger.getLogger(EntrancePanel.class.getName()).log(Level.SEVERE, null, ex);
+        }
 		Pane loginPane = new Pane();
 		
 		Label loginScreenLable = new Label();
@@ -138,31 +149,42 @@ public class EntrancePanel extends AppState {
 			}
 		}
 	}
-        public void makeVehicle(String type, String licensePlate,long ticketNumbr){
-      if(type.equals("CAR")){
-          vehicle = new Car(licensePlate, ticketNumbr);
-      }
-      else if(type.equals("VAN")){
-          vehicle = new Van(licensePlate, ticketNumbr);
-      }
-      else if(type.equals("TRUCK")){
-          vehicle = new Truck(licensePlate, ticketNumbr);
-      }
-      else if(type.equals("ELECTRIC")){
-          vehicle = new Electric(licensePlate, ticketNumbr);
-      }
-      else if(type.equals("MOTORBIKE")){
-          vehicle = new MotorBike(licensePlate, ticketNumbr);
-      }
-      else{
-          System.out.println("No Valid Vehicle Type Entered");
-      }
+
+        public void makeVehicle(String type, String licensePlate,long ticketNumbr, LocalDateTime date){
+            switch (type) {
+            case "CAR":
+                vehicle = new Car(licensePlate, ticketNumbr,date);
+                break;
+            case "VAN":
+                vehicle = new Van(licensePlate, ticketNumbr,date);
+                break;
+            case "TRUCK":
+                vehicle = new Truck(licensePlate, ticketNumbr,date);
+                break;
+            case "ELECTRIC":
+                vehicle = new Electric(licensePlate, ticketNumbr, date);
+                break;
+            case "MOTORBIKE":
+                vehicle = new MotorBike(licensePlate, ticketNumbr, date);
+                break;
+            default:
+                System.out.println("No Valid Vehicle Type Entered");
+                break;
+        }
     }
-	public void readFiles() throws IOException{
+
+
+        public LocalDateTime convertToLocalDateTime(Date dateToConvert) {
+                return dateToConvert.toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime();
+}
+	public void readFiles() throws IOException, ParseException{
         File folder = new File(ParkingApp.getSingletonMain().currentDirectory);
         File[] listOfFiles = folder.listFiles();
         String tempVehicleType = null;
         String tempLicensePlate = null;
+        String dateRead = null;
+        Date date;
+        LocalDateTime localDate = null;
         for (int i = 0; i < listOfFiles.length; i++) {
         File file = listOfFiles[i];
         if (file.isFile() && file.getName().endsWith(".txt")) {
@@ -170,13 +192,22 @@ public class EntrancePanel extends AppState {
                 BufferedReader reader = new BufferedReader(new FileReader(file));
                 tempLicensePlate = reader.readLine();
                 tempVehicleType = reader.readLine().toUpperCase();
-//                System.out.println("tempLicenece plate: " + tempLicensePlate + "\ntempVehicleType: " + tempVehicleType);
+                dateRead = reader.readLine();
+                SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                date = dateFormat.parse(dateRead);
+                localDate = convertToLocalDateTime(date);
             } catch (FileNotFoundException ex) {
+                System.out.println("YOOOOOOOOOOOO SOMETHINGS WRONG");
                 Logger.getLogger(RegistrationState.class.getName()).log(Level.SEVERE, null, ex);
             }
-            makeVehicle(tempVehicleType,tempLicensePlate,Long.parseLong(file.getName().replace(".txt", "")));
+            makeVehicle(tempVehicleType,tempLicensePlate,Long.parseLong(file.getName().replace(".txt", "")),localDate);
+
+            
+        
         }
-        }}
+        }
+//        vehicle.getVehicles();
+        }
 	private static void setDimensions(Control c, int positionX, int positionY, int width, Pane pane){
 		c.setMaxHeight(30);
 		c.setMinHeight(30);

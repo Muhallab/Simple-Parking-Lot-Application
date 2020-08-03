@@ -5,11 +5,18 @@
  */
 package parkingLot;
 
+import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Random;
 import parkingLot.Vehicle.VehicleType;
+import java.util.Date;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.format.DateTimeFormatter;
+import java.util.Locale;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -23,7 +30,7 @@ class ParkingTicket {
     LocalDateTime paymentTime;
     parkingStatus status;
     double price =0;
-    DateTimeFormatter date = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");  
+    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss", Locale.US);
     void saveInDB() {
         tickets.add(this);
         
@@ -69,8 +76,9 @@ class ParkingTicket {
         return ticketNumber;
     }
 
-    public LocalDateTime getIssueTime() {
-        return issueTime;
+    public String getIssueTime() throws ParseException {
+        
+        return issueTime.format(formatter);
     }
 
     public LocalDateTime getPaymentTime() {
@@ -81,10 +89,19 @@ class ParkingTicket {
         return status;
     }
 
+    public void setIssueTime(LocalDateTime issueTime) {
+        this.issueTime = issueTime;
+    }
+    
     public double getPrice() {
         return price;
     }
     public String toString(){
-        return ("Ticket Number: " + getTicketNumber() + "\nIssue Time: " + getIssueTime().format(date));
+        try {
+            return ("Ticket Number: " + getTicketNumber() + "\nIssue Time: " + getIssueTime());
+        } catch (ParseException ex) {
+            Logger.getLogger(ParkingTicket.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
     }
 }

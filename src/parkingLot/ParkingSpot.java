@@ -15,7 +15,7 @@ import static parkingLot.ParkingFloor.floors;
     public enum ParkingSpotType {
   HANDICAPPED, COMPACT, LARGE, MOTORBIKE, ELECTRIC
     }
-    boolean unoccupied;
+    boolean unoccupied = true;
     int number;
     ParkingSpotType type;
 

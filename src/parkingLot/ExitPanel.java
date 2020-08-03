@@ -42,49 +42,20 @@ class ExitPanel extends AppState {
     @Override
     public void setGUI(ParkingApp app){
         Pane exitPane = new Pane();
-        Scene ExitPanelScene = new Scene(exitPane,400,300);
+        Scene ExitPanelScene = new Scene(exitPane,400,200);
         DateTimeFormatter date = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");  
         LocalDateTime now = LocalDateTime.now();
-            HBox select = new HBox(20);
-            VBox type = new VBox(10);
-            ToggleGroup typeSelect = new ToggleGroup();
-            RadioButton credit = new RadioButton();
-            credit.setText("Credit");
-            credit.setUserData("Credit");
-            credit.setToggleGroup(typeSelect);
-            credit.setSelected(true);
-            RadioButton cash = new RadioButton();
-            cash.setText("Cash");
-            cash.setUserData("Cash");
-            cash.setToggleGroup(typeSelect);
-            cash.setSelected(false);
-            RadioButton paid = new RadioButton();
-            paid.setText("Paid already");
-            paid.setUserData("Paid");
-            paid.setToggleGroup(typeSelect);
-            paid.setSelected(false);
-            type.getChildren().addAll(credit, cash, paid);
         TextField licensePlate = new TextField();
-        setDimensions(licensePlate, 20, 160, 300, exitPane);
+        setDimensions(licensePlate, 20, 40, 300, exitPane);
         Label licensePlateLabel = new Label();
-                setDimensions(licensePlateLabel, 20, 130, 280, exitPane);
+                setDimensions(licensePlateLabel, 20, 10, 280, exitPane);
 		licensePlateLabel.setText("Enter Ticket Number");
 		licensePlateLabel.setFont(new Font("Calibri", 20));
-        Label customarScreenLabel = new Label();
-		setDimensions(customarScreenLabel, 10, 0, 280, exitPane);
-		customarScreenLabel.setText("Choose your payment method");
-		customarScreenLabel.setAlignment(Pos.CENTER);
-		customarScreenLabel.setFont(new Font("Calibri", 20));
-                
-                select.getChildren().addAll(customarScreenLabel, type);
-                exitPane.getChildren().add(select);
-//                Vehicle vehicle = new Vehicle((Vehicle.VehicleType) typeSelect.getUserData(), );
-                
 		Button confirm = new Button("Proceed");
-                confirm.setOnAction(new confirmEventHandler(licensePlate,typeSelect));
-                setDimensions(confirm, 50, 250, 300, exitPane);
+                confirm.setOnAction(new confirmEventHandler(licensePlate));
+                setDimensions(confirm, 50, 130, 300, exitPane);
                 Label balanceLabel = new Label();
-		setDimensions(balanceLabel, 10, 200, 300, exitPane);
+		setDimensions(balanceLabel, 10, 80, 300, exitPane);
 		balanceLabel.setText("Current time: " + date.format(now));
 		balanceLabel.setAlignment(Pos.CENTER_RIGHT);
 		balanceLabel.setFont(new Font("Calibri", 20));
@@ -98,10 +69,8 @@ class ExitPanel extends AppState {
     }
     private class confirmEventHandler implements EventHandler<ActionEvent> {
         private final TextField ticketNumber;
-        private final ToggleGroup typeSelect;
-        public confirmEventHandler(TextField ticketNumber, ToggleGroup typeSelect){
+        public confirmEventHandler(TextField ticketNumber){
             this.ticketNumber = ticketNumber;
-            this.typeSelect = typeSelect;
         }
         @Override
         public void handle(ActionEvent e) {

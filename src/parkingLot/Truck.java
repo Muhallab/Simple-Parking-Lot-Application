@@ -5,6 +5,8 @@
  */
 package parkingLot;
 
+import java.time.LocalDateTime;
+
 /**
  *
  * @author almuh
@@ -14,7 +16,7 @@ public class Truck extends Vehicle {
     public Truck(String licensePlate) {
     super(VehicleType.TRUCK, licensePlate);
   }
-    public Truck(String licensePlate, long ticketNumber) {
-    super(VehicleType.TRUCK, licensePlate, ticketNumber);
+    public Truck(String licensePlate, long ticketNumber, LocalDateTime date) {
+    super(VehicleType.TRUCK, licensePlate, ticketNumber, date);
   }
 }

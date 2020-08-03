@@ -13,8 +13,11 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.text.ParseException;
 import java.util.Arrays;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
@@ -38,7 +41,7 @@ import javafx.scene.text.Font;
  * @author almuh
  */
 class CustomerState extends AppState {
-    Vehicle vehicle = new Vehicle(Vehicle.VehicleType.CAR, "temp", 0000L) {
+    Vehicle vehicle = new Vehicle(Vehicle.VehicleType.CAR, "temp") {
     };
     Scene customerScene;
     long Balance;
@@ -63,11 +66,18 @@ class CustomerState extends AppState {
 		customerPane.getChildren().add(topLineBreak);
                 
                 Label balanceLabel = new Label();
-		setDimensions(balanceLabel, 30, 50, 300, customerPane);
-		balanceLabel.setText("Current balance to be paid is $" + Balance);
-		balanceLabel.setAlignment(Pos.CENTER_RIGHT);
+		setDimensions(balanceLabel, 30, 80, 300, customerPane);
+                Label time = new Label();
+		setDimensions(time, 30, 50, 300, customerPane);
+                balanceLabel.setText("Current balance to be paid is $" + Balance);
+                try {
+                    time.setText("Car entered at: " + vehicle.getTicket().getIssueTime());
+                } catch (ParseException ex) {
+                    Logger.getLogger(CustomerState.class.getName()).log(Level.SEVERE, null, ex);
+                }
+		balanceLabel.setAlignment(Pos.CENTER);
 		balanceLabel.setFont(new Font("Calibri", 20));
-                
+                time.setFont(new Font("Calibri", 20));
                 HBox root = new HBox(20);
                 VBox type = new VBox(10);
                 ToggleGroup typeSelect = new ToggleGroup();

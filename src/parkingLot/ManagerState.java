@@ -86,7 +86,7 @@ public class ManagerState extends AppState{
 		Button loginButton = new Button();
 		setDimensions(loginButton, 10, 210, 280, managerPane);
 		loginButton.setText("Logout");
-//		loginButton.setOnAction(new logoutEventHandler());
+		loginButton.setOnAction(new logoutEventHandler());
 		
 		app.stage1.setTitle("Manager Screen");
 		app.stage1.setScene(managerScene);

@@ -5,8 +5,10 @@
  */
 package parkingLot;
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Date;
+import java.time.LocalDateTime;
+
 
 /**
  *
@@ -65,10 +67,11 @@ public abstract class Vehicle {
     ticket = new ParkingTicket();
     vehicles.add(this);
 }
-  public Vehicle(VehicleType type, String licensePlate,long ticketNumber) {
-    this.type = type;
+  public Vehicle(VehicleType type, String licensePlate,long ticketNumber, LocalDateTime date) {
+      this.type = type;
     this.licensePlate = licensePlate;
     ticket = new ParkingTicket(ticketNumber);
+    ticket.setIssueTime(date);
     vehicles.add(this);
     }
 

@@ -5,6 +5,8 @@
  */
 package parkingLot;
 
+import java.time.LocalDateTime;
+
 /**
  *
  * @author almuh
@@ -14,8 +16,8 @@ public class Van extends Vehicle {
     public Van(String licensePlate) {
     super(VehicleType.VAN, licensePlate);
   }
-    public Van(String licensePlate, long ticketNumber) {
-        super(VehicleType.VAN, licensePlate, ticketNumber);
+    public Van(String licensePlate, long ticketNumber,LocalDateTime date) {
+        super(VehicleType.VAN, licensePlate, ticketNumber,date);
       }
     
 }

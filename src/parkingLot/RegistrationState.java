@@ -15,6 +15,8 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.sql.Time;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Control;
@@ -135,18 +137,21 @@ public class RegistrationState extends AppState {
 				}
                 else{
 					try{
+                                               SimpleDateFormat date = new SimpleDateFormat("yyyy/MM/dd HH:mm");  
 						List<String> lines = Arrays.asList(vehicle.getLicensePlate() + "\n" + vehicle.getType() + "\n"+ vehicle.getTicket().getIssueTime());
 						Path path = Paths.get(ParkingApp.getSingletonMain().currentDirectory + vehicle.getTicket().getTicketNumber()+ ".txt");
 						Files.write(path, lines, StandardCharsets.UTF_8);
-                                                DateTimeFormatter date = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");  
-						Alert userCreationSuccess = new Alert(Alert.AlertType.NONE, "Vehicle registration success - Vehicle entered parking lot at " + LocalDateTime.now().format(date) + "\nTicketNumber: " + vehicle.getTicket().getTicketNumber(), ButtonType.OK);
+                                                LocalDateTime dateNow = null;
+						Alert userCreationSuccess = new Alert(Alert.AlertType.NONE, "Vehicle registration success - Vehicle entered parking lot at " + vehicle.getTicket().getIssueTime() + "\nTicketNumber: " + vehicle.getTicket().getTicketNumber(), ButtonType.OK);
 						userCreationSuccess.setTitle("Account Creation Attempt Detected");
 						userCreationSuccess.showAndWait();
 					}catch(IOException error){
 						Alert fileCreationError = new Alert(Alert.AlertType.NONE, "Vehicle registration failed - File Creation Error", ButtonType.OK);
 						fileCreationError.setTitle("Account Creation Attempt Detected");
 						fileCreationError.showAndWait();
-					}
+					} catch (ParseException ex) {
+                        Logger.getLogger(RegistrationState.class.getName()).log(Level.SEVERE, null, ex);
+                    }
 				}
 //                ParkingApp.getSingleton().setState(new RegistrationState());        
         }
