@@ -11,17 +11,17 @@ import java.time.LocalDateTime;
  *
  * @author almuh
  */
-public class MotorBike extends Vehicle {
-    MotorBikeSpot tempSpot = new MotorBikeSpot();
-    public MotorBike(String licensePlate, String floorNumber) {
-    super(VehicleType.MOTORBIKE, licensePlate);
+public class Handicapped extends Vehicle {
+   HandicappedSpot tempSpot = new HandicappedSpot();
+    public Handicapped(String licensePlate, String floorNumber) {
+    super(Vehicle.VehicleType.HANDICAPPED, licensePlate);
+    this.assignSpot(tempSpot.getFreeParkingSpot(floorNumber));
+     
+  }
+    public Handicapped(String licensePlate, long ticketNumber, LocalDateTime date, String floorNumber) {
+    super(Vehicle.VehicleType.HANDICAPPED, licensePlate, ticketNumber, date);
     this.assignSpot(tempSpot.getFreeParkingSpot(floorNumber));
 
-  }
-    public MotorBike(String licensePlate, long ticketNumber, LocalDateTime date, String floorNumber) {
-    super(VehicleType.MOTORBIKE, licensePlate, ticketNumber,date);
-    this.assignSpot(tempSpot.getFreeParkingSpot(floorNumber));
 
   }
-    
 }

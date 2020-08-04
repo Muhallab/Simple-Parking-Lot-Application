@@ -48,6 +48,17 @@ public class ParkingApplicationDemo extends Application{
                 ParkingApp.getSingletonExitPanel().stage2 = secondaryStage ;
 		ParkingApp.getSingletonExitPanel().setState(new ExitPanel());
                 
+                Stage DisplayBoardStage = new Stage();
+                ParkingApp.getSingletonExitPanel().stage3 = DisplayBoardStage ;
+		ParkingApp.getSingletonExitPanel().setState(new ParkingDisplayBoard());
+                
+                Stage ElectricPanelStage = new Stage();
+                ParkingApp.getSingletonExitPanel().stage4 = ElectricPanelStage ;
+		ParkingApp.getSingletonExitPanel().setState(new ElectricPanel());
+                
+                Stage infoPanelStage = new Stage();
+                ParkingApp.getSingletonInfoPortal().stage5 = infoPanelStage ;
+		ParkingApp.getSingletonInfoPortal().setState(new InfoPortal());
 	}
 	public static void main(String[] args){
 		launch(args);

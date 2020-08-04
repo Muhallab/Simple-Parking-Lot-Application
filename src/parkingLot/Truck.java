@@ -12,11 +12,13 @@ import java.time.LocalDateTime;
  * @author almuh
  */
 public class Truck extends Vehicle {
-
-    public Truck(String licensePlate) {
+    LargeSpot tempSpot = new LargeSpot();
+    public Truck(String licensePlate, String floorNumber) {
     super(VehicleType.TRUCK, licensePlate);
+    this.assignSpot(tempSpot.getFreeParkingSpot(floorNumber));
   }
-    public Truck(String licensePlate, long ticketNumber, LocalDateTime date) {
+    public Truck(String licensePlate, long ticketNumber, LocalDateTime date, String floorNumber) {
     super(VehicleType.TRUCK, licensePlate, ticketNumber, date);
+    this.assignSpot(tempSpot.getFreeParkingSpot(floorNumber));
   }
 }

@@ -61,10 +61,10 @@ class ExitPanel extends AppState {
 		balanceLabel.setFont(new Font("Calibri", 20));
                 
                 
-                app.stage2.setTitle("Exit Panel");
+                app.stage2.setTitle("Exit Panel/Parking Attendant");
 		app.stage2.setScene(ExitPanelScene);
                 app.stage2.setX(150);
-                app.stage2.setY(190);
+                app.stage2.setY(140);
 		app.stage2.show();
     }
     private class confirmEventHandler implements EventHandler<ActionEvent> {
@@ -77,9 +77,6 @@ class ExitPanel extends AppState {
                 File file = new File(ParkingApp.getSingletonMain().currentDirectory + ticketNumber.getText() + ".txt");
                 if(file.exists()){
                                         ParkingApp.getSingletonExitPanel().currentMemberFile = file;
-//					Alert duplicateUserError = new Alert(Alert.AlertType.NONE, "Price is" , ButtonType.OK);
-//					duplicateUserError.setTitle("Vehicle registration Attempt Detected");
-//					duplicateUserError.showAndWait();
                                         ParkingApp.getSingletonExitPanel().setState(new CustomerState());
                                         
 				}

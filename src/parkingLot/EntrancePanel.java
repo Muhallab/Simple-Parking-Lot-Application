@@ -33,8 +33,10 @@ import javafx.scene.shape.Line;
 import java.util.Date;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.time.ZoneOffset;
 import static java.time.temporal.TemporalQueries.localDate;
 import javafx.util.converter.LocalDateTimeStringConverter;
 /**
@@ -43,10 +45,15 @@ import javafx.util.converter.LocalDateTimeStringConverter;
  */
 public class EntrancePanel extends AppState {
     Scene loginScene;
-        Vehicle vehicle;
-    
+    Vehicle vehicle;
+    ParkingFloor floor1;
+    ParkingFloor floor2;
+    ParkingFloor floor3;
 	@Override
 	public void setGUI(ParkingApp app){
+            floor1 = new ParkingFloor("1");
+            floor2 = new ParkingFloor("2");
+            floor3 = new ParkingFloor("3");
              try {
                 readFiles();
                 } catch (IOException ex) {
@@ -115,7 +122,7 @@ public class EntrancePanel extends AppState {
 		
 		loginScene = new Scene(loginPane, 400, 250);
 		
-		app.stage1.setTitle("Login Screen");
+		app.stage1.setTitle("Entrance Panel");
 		app.stage1.setScene(loginScene);
 		app.stage1.show();
 	}
@@ -150,22 +157,25 @@ public class EntrancePanel extends AppState {
 		}
 	}
 
-        public void makeVehicle(String type, String licensePlate,long ticketNumbr, LocalDateTime date){
+        public void makeVehicle(String type, String licensePlate,long ticketNumbr, LocalDateTime date, String floorNumber){
             switch (type) {
             case "CAR":
-                vehicle = new Car(licensePlate, ticketNumbr,date);
+                vehicle = new Car(licensePlate, ticketNumbr,date,floorNumber);
                 break;
             case "VAN":
-                vehicle = new Van(licensePlate, ticketNumbr,date);
+                vehicle = new Van(licensePlate, ticketNumbr,date,floorNumber);
                 break;
             case "TRUCK":
-                vehicle = new Truck(licensePlate, ticketNumbr,date);
+                vehicle = new Truck(licensePlate, ticketNumbr,date,floorNumber);
                 break;
             case "ELECTRIC":
-                vehicle = new Electric(licensePlate, ticketNumbr, date);
+                vehicle = new Electric(licensePlate, ticketNumbr, date,floorNumber);
                 break;
             case "MOTORBIKE":
-                vehicle = new MotorBike(licensePlate, ticketNumbr, date);
+                vehicle = new MotorBike(licensePlate, ticketNumbr, date,floorNumber);
+                break;
+            case "HANDICAPPED":
+                vehicle = new Handicapped(licensePlate, ticketNumbr, date,floorNumber);
                 break;
             default:
                 System.out.println("No Valid Vehicle Type Entered");
@@ -175,7 +185,10 @@ public class EntrancePanel extends AppState {
 
 
         public LocalDateTime convertToLocalDateTime(Date dateToConvert) {
-                return dateToConvert.toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime();
+//            Instant instant = Instant.ofEpochMilli(dateToConvert.getTime());
+//            LocalDateTime ldt = LocalDateTime.ofInstant(instant, ZoneOffset.UTC);
+//            return ldt;
+            return dateToConvert.toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime();
 }
 	public void readFiles() throws IOException, ParseException{
         File folder = new File(ParkingApp.getSingletonMain().currentDirectory);
@@ -185,6 +198,7 @@ public class EntrancePanel extends AppState {
         String dateRead = null;
         Date date;
         LocalDateTime localDate = null;
+        String floorNumber = null;
         for (int i = 0; i < listOfFiles.length; i++) {
         File file = listOfFiles[i];
         if (file.isFile() && file.getName().endsWith(".txt")) {
@@ -196,11 +210,12 @@ public class EntrancePanel extends AppState {
                 SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                 date = dateFormat.parse(dateRead);
                 localDate = convertToLocalDateTime(date);
+                floorNumber = reader.readLine();
             } catch (FileNotFoundException ex) {
                 System.out.println("YOOOOOOOOOOOO SOMETHINGS WRONG");
                 Logger.getLogger(RegistrationState.class.getName()).log(Level.SEVERE, null, ex);
             }
-            makeVehicle(tempVehicleType,tempLicensePlate,Long.parseLong(file.getName().replace(".txt", "")),localDate);
+            makeVehicle(tempVehicleType,tempLicensePlate,Long.parseLong(file.getName().replace(".txt", "")),localDate, floorNumber);
 
             
         

@@ -5,20 +5,48 @@
  */
 package parkingLot;
 
+import java.util.ArrayList;
+
 /**
  *
  * @author almuh
  */
 public class ElectricSpot extends ParkingSpot {
         ElectricPanel panel;
-     public ElectricSpot(int number, int floorNumber) {
+        static ArrayList<ElectricSpot> electricSpots = new ArrayList<>();
+     public ElectricSpot(String number, String floorNumber) {
             super(number, floorNumber, ParkingSpotType.ELECTRIC);
             panel = new ElectricPanel();
+            electricSpots.add(this);
+            
 
         }
+
+    public ElectricSpot() {
+            super("1", "1", ParkingSpotType.ELECTRIC);
+
+    }
 
         @Override
-        public int getNumber() {
+        public String getNumber() {
             return number;
         }
+
+    public static ArrayList<ElectricSpot> getElectricSpots() {
+        return electricSpots;
+    }
+    public ParkingSpot getFreeParkingSpot(String floorNumber){
+        String tempString;
+        for(ParkingSpot spot : electricSpots){
+            tempString = spot.getNumber();
+            if(tempString.startsWith(floorNumber)){
+            if(spot.isUnoccupied()){
+                spot.setUnoccupied(false);
+                return spot;
+            }
+        }}
+        System.out.println("No more free parking lots in the selected floor");
+        return null;
+    }
+        
 }

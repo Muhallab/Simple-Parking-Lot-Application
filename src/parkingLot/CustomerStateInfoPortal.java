@@ -40,7 +40,7 @@ import javafx.scene.text.Font;
  *
  * @author almuh
  */
-class CustomerState extends AppState {
+class CustomerStateInfoPortal extends AppState {
     Vehicle vehicle = new Vehicle(Vehicle.VehicleType.CAR, "temp") {
     };
     Scene customerScene;
@@ -93,12 +93,7 @@ class CustomerState extends AppState {
                 cash.setUserData("Cash");
                 cash.setToggleGroup(typeSelect);
                 cash.setSelected(false);
-                RadioButton paid = new RadioButton();
-                paid.setText("Paid already");
-                paid.setUserData("Paid");
-                paid.setToggleGroup(typeSelect);
-                paid.setSelected(false);
-                type.getChildren().addAll(credit, cash, paid);
+                type.getChildren().addAll(credit, cash);
                 Label customarScreenLabel = new Label();
 		customarScreenLabel.setText("Choose your payment method");
 		customarScreenLabel.setFont(new Font("Calibri", 20));
@@ -113,15 +108,15 @@ class CustomerState extends AppState {
                 setDimensions(home, 50, 260, 300, customerPane);
                 setDimensions(pay, 50, 230, 300, customerPane);
                 
-                app.stage2.setTitle("Customer Screen");
-		app.stage2.setScene(customerScene);
-                app.stage2.show();
+                app.stage5.setTitle("Customer Info Portal");
+		app.stage5.setScene(customerScene);
+                app.stage5.show();
     }
                 private class homeEventHandler implements EventHandler<ActionEvent> {
 		@Override
 		public void handle(ActionEvent e) {
-                        ParkingApp.getSingletonExitPanel().currentMemberFile = null;
-			ParkingApp.getSingletonExitPanel().setState(new ExitPanel());
+                        ParkingApp.getSingletonInfoPortal().currentMemberFile = null;
+			ParkingApp.getSingletonInfoPortal().setState(new InfoPortal());
 		}}
                 private class proceedEventHandler implements EventHandler<ActionEvent> {
                     ToggleGroup paymentMethod;
@@ -130,41 +125,22 @@ class CustomerState extends AppState {
                             }
                     @Override
                     public void handle(ActionEvent e) {
-                        if(paymentMethod.getSelectedToggle().getUserData().toString().equals("Paid")){
                         if( vehicle.getTicket().isActive()){
-                            Alert failed = new Alert(Alert.AlertType.NONE, "Ticket Status is Active", ButtonType.OK);
-                            failed.setTitle("Ticket has not been paid yet");
-                            failed.showAndWait();
+                            Alert success = new Alert(Alert.AlertType.NONE, "Ticket has been Paid", ButtonType.OK);
+                            success.setTitle("Payment successful");
+                            success.showAndWait();
+                            vehicle.getTicket().setStatus(ParkingTicket.parkingStatus.Paid);
+                            ParkingApp.getSingletonInfoPortal().setState(new InfoPortal());
+                            
                         } else {
-                            Alert success = new Alert(Alert.AlertType.NONE, "Thank you for using out parking lot, Have a nice day!", ButtonType.OK);
-                            success.setTitle("Ticket is Paid");
-                            vehicle.getSpot().setUnoccupied(true);
-                            success.showAndWait();
-                            deleteTicket(vehicle.getTicket().getTicketNumber());
-                            ParkingApp.getSingletonDisplayBoard().setState(new ParkingDisplayBoard());
-                            ParkingApp.getSingletonExitPanel().currentMemberFile = null;
-                            ParkingApp.getSingletonExitPanel().setState(new ExitPanel());
-                        }}
-                        else{
-                            Alert success = new Alert(Alert.AlertType.NONE, "Thank you for using our parking lot, Have a nice day!", ButtonType.OK);
-                            success.setTitle("Ticket is Paid");
-                            vehicle.getSpot().setUnoccupied(true);
-                            deleteTicket(vehicle.getTicket().getTicketNumber());
-                            success.showAndWait();
-                            ParkingApp.getSingletonDisplayBoard().setState(new ParkingDisplayBoard());
-                            ParkingApp.getSingletonExitPanel().currentMemberFile = null;
-                            ParkingApp.getSingletonExitPanel().setState(new ExitPanel());
+                            Alert failed = new Alert(Alert.AlertType.NONE, "Ticket is already paid", ButtonType.OK);
+                            failed.setTitle("Error");
+                            failed.showAndWait();
+                            ParkingApp.getSingletonInfoPortal().setState(new InfoPortal());
                         }
-                    }
-                }
+                        
+                }}
                     
-                
-                private void deleteTicket(long ticketNumber){
-                    File file = new File(ParkingApp.getSingletonMain().currentDirectory + ticketNumber + ".txt");
-			if(file.exists()){
-				file.delete();
-                        }
-                }
                 private void setDimensions(Control c, int positionX, int positionY, int width, Pane pane){
 		c.setMaxHeight(30);
 		c.setMinHeight(30);

@@ -5,17 +5,8 @@
  */
 package parkingLot;
 
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
-import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.text.ParseException;
-import java.util.Arrays;
-import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.event.ActionEvent;
@@ -28,7 +19,6 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.control.Control;
 import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
-import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
@@ -40,8 +30,9 @@ import javafx.scene.text.Font;
  *
  * @author almuh
  */
-class CustomerState extends AppState {
-    Vehicle vehicle = new Vehicle(Vehicle.VehicleType.CAR, "temp") {
+public class ElectricCustomerState extends CustomerState {
+
+Vehicle vehicle = new Vehicle(Vehicle.VehicleType.CAR, "temp") {
     };
     Scene customerScene;
     double Balance;
@@ -108,14 +99,27 @@ class CustomerState extends AppState {
                 
                 Button pay = new Button("Proceed");
                 Button home = new Button("Home");
+                Button charge = new Button("Charge");
                 pay.setOnAction(new proceedEventHandler(typeSelect));
                 home.setOnAction(new homeEventHandler());
+                charge.setOnAction(new chargeEventHandler());
                 setDimensions(home, 50, 260, 300, customerPane);
                 setDimensions(pay, 50, 230, 300, customerPane);
+                setDimensions(charge, 50, 200, 300, customerPane);
                 
-                app.stage2.setTitle("Customer Screen");
-		app.stage2.setScene(customerScene);
-                app.stage2.show();
+                app.stage4.setTitle("Customer Screen");
+		app.stage4.setScene(customerScene);
+                app.stage4.show();
+    }
+
+    private static class chargeEventHandler implements EventHandler<ActionEvent> {
+
+        @Override
+        public void handle(ActionEvent event) {
+                            Alert success = new Alert(Alert.AlertType.NONE, "Charging...", ButtonType.OK);
+                            success.setTitle("Charge is on");        
+                            success.showAndWait();
+                                                }
     }
                 private class homeEventHandler implements EventHandler<ActionEvent> {
 		@Override
@@ -138,22 +142,22 @@ class CustomerState extends AppState {
                         } else {
                             Alert success = new Alert(Alert.AlertType.NONE, "Thank you for using out parking lot, Have a nice day!", ButtonType.OK);
                             success.setTitle("Ticket is Paid");
-                            vehicle.getSpot().setUnoccupied(true);
                             success.showAndWait();
+                            vehicle.getSpot().setUnoccupied(true);
                             deleteTicket(vehicle.getTicket().getTicketNumber());
                             ParkingApp.getSingletonDisplayBoard().setState(new ParkingDisplayBoard());
-                            ParkingApp.getSingletonExitPanel().currentMemberFile = null;
-                            ParkingApp.getSingletonExitPanel().setState(new ExitPanel());
+                            ParkingApp.getSingletonElectricPanel().currentMemberFile = null;
+                            ParkingApp.getSingletonElectricPanel().setState(new ElectricPanel());
                         }}
                         else{
                             Alert success = new Alert(Alert.AlertType.NONE, "Thank you for using our parking lot, Have a nice day!", ButtonType.OK);
                             success.setTitle("Ticket is Paid");
+                            success.showAndWait();
                             vehicle.getSpot().setUnoccupied(true);
                             deleteTicket(vehicle.getTicket().getTicketNumber());
-                            success.showAndWait();
                             ParkingApp.getSingletonDisplayBoard().setState(new ParkingDisplayBoard());
-                            ParkingApp.getSingletonExitPanel().currentMemberFile = null;
-                            ParkingApp.getSingletonExitPanel().setState(new ExitPanel());
+                            ParkingApp.getSingletonElectricPanel().currentMemberFile = null;
+                            ParkingApp.getSingletonElectricPanel().setState(new ElectricPanel());
                         }
                     }
                 }
@@ -175,3 +179,6 @@ class CustomerState extends AppState {
 		pane.getChildren().add(c);
     }
 }
+
+    
+

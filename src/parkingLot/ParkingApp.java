@@ -21,6 +21,9 @@ public class ParkingApp {
 	public File currentMemberFile;
 	public Stage stage1;
 	public Stage stage2;
+        public Stage stage3;
+        public Stage stage4;
+        public Stage stage5;
 	public Scene scene;
 	
 	//Singleton Getter - Is responsible for maintaining exactly one cope of the application to maintain state coherency
@@ -29,6 +32,9 @@ public class ParkingApp {
 	//Effects  : Ensures no duplicates of the program
 	public static ParkingApp getSingletonMain(){return AppInstance==null ? AppInstance = new ParkingApp() : AppInstance;}
 	public static ParkingApp getSingletonExitPanel(){return AppInstanceExit==null ? AppInstanceExit = new ParkingApp() : AppInstanceExit;}
+	public static ParkingApp getSingletonDisplayBoard(){return AppInstanceExit==null ? AppInstanceExit = new ParkingApp() : AppInstanceExit;}
+        public static ParkingApp getSingletonElectricPanel(){return AppInstanceExit==null ? AppInstanceExit = new ParkingApp() : AppInstanceExit;}
+        public static ParkingApp getSingletonInfoPortal(){return AppInstanceExit==null ? AppInstanceExit = new ParkingApp() : AppInstanceExit;}
 
 	private static ParkingApp AppInstance = null;
 	private static ParkingApp AppInstanceExit = null;
@@ -50,11 +56,18 @@ public class ParkingApp {
 	}
 	
 	//Rep Invariant
-	//  currentAppState is always a member of the set {LoggedOutState, ManagerState, CustomerState}
+	//  currentAppState is always a member of the set {EntrancePanel, ManagerState, ExitPanel, ElectricPanel, RegistrationState, ParkingDisplayBoard, or CustomerState}
 	public boolean repOK(){
 		return ((currentAppState.getClass()==EntrancePanel.class)||
 				(currentAppState.getClass()==ManagerState.class)||
-				(currentAppState.getClass()==CustomerState.class));
+				(currentAppState.getClass()==ExitPanel.class)||
+                                (currentAppState.getClass()==ElectricPanel.class)||
+                                (currentAppState.getClass()==RegistrationState.class)||
+                                (currentAppState.getClass()==ParkingDisplayBoard.class)||
+                                (currentAppState.getClass()==ElectricCustomerState.class))||
+                                (currentAppState.getClass()==InfoPortal.class)||
+                                (currentAppState.getClass()==CustomerStateInfoPortal.class)||
+                                (currentAppState.getClass()==CustomerState.class);
 	}
 	
 	//Abstract Function

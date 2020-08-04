@@ -16,13 +16,14 @@ import java.time.LocalDateTime;
  */
 public abstract class Vehicle {
     public enum VehicleType {
-  CAR, TRUCK, ELECTRIC, VAN, MOTORBIKE
+  CAR, TRUCK, ELECTRIC, VAN, MOTORBIKE, HANDICAPPED
 }
     static int count=1;
-  static ArrayList<Vehicle> vehicles = new ArrayList<>();
-  private String licensePlate;
-  private final VehicleType type;
-  private ParkingTicket ticket;
+    static ArrayList<Vehicle> vehicles = new ArrayList<>();
+    String licensePlate;
+    final VehicleType type;
+    ParkingTicket ticket;
+    ParkingSpot spot;
 
     public String getLicensePlate() {
         return licensePlate;
@@ -75,7 +76,14 @@ public abstract class Vehicle {
     vehicles.add(this);
     }
 
- 
+    public ParkingSpot getSpot() {
+        return spot;
+    }
+
+  public void assignSpot(ParkingSpot spot){
+      this.spot = spot;
+      this.spot.setUnoccupied(false);
+  }
   public void assignTicket(ParkingTicket ticket) {
     this.ticket = ticket;
   }

@@ -15,11 +15,11 @@ import static parkingLot.ParkingFloor.floors;
     public enum ParkingSpotType {
   HANDICAPPED, COMPACT, LARGE, MOTORBIKE, ELECTRIC
     }
-    boolean unoccupied = true;
-    int number;
+     boolean unoccupied = true;
+    String number;
     ParkingSpotType type;
 
-    public void setNumber(int number) {
+    public void setNumber(String number) {
         this.number = number;
     }
 
@@ -41,13 +41,13 @@ import static parkingLot.ParkingFloor.floors;
         return type;
     }
     
-    public ParkingSpot(int number,int floorNumber, ParkingSpotType type ){
+    public ParkingSpot(String number,String floorNumber, ParkingSpotType type ){
         this.number = number;
         this.type = type;
         getParkingFloor(floorNumber).getParkingSpots().add(this);
         
     }
-    public ParkingFloor getParkingFloor(int floorNumber){
+    public ParkingFloor getParkingFloor(String floorNumber){
         for(ParkingFloor floor : floors){
             if(floor.getFloorNumber() == floorNumber) return floor;
             }
@@ -55,7 +55,7 @@ import static parkingLot.ParkingFloor.floors;
         return null;
         }
 
-    public int getNumber() {
+    public String getNumber() {
         return number;
     }
     

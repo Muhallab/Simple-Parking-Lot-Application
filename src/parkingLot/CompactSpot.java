@@ -5,17 +5,40 @@
  */
 package parkingLot;
 
+import java.util.ArrayList;
+
 /**
  *
  * @author almuh
  */
 public class CompactSpot extends ParkingSpot{
-    public CompactSpot(int number, int floorNumber) {
+    static ArrayList<CompactSpot> compactSpots = new ArrayList<>();
+    public CompactSpot(String number, String floorNumber) {
             super(number, floorNumber, ParkingSpotType.COMPACT);
+            compactSpots.add(this);
         }
+    public CompactSpot(){
+    super("1", "1", ParkingSpotType.COMPACT);
 
+    }
         @Override
-        public int getNumber() {
+        public String getNumber() {
             return number;
         }
-}
+
+    public static ArrayList<CompactSpot> getCompactSpots() {
+        return compactSpots;
+    }
+    public ParkingSpot getFreeParkingSpot(String floorNumber){
+        String tempString;
+        for(ParkingSpot spot : compactSpots){
+            tempString = spot.getNumber();
+            if(tempString.startsWith(floorNumber)){
+            if(spot.isUnoccupied()){
+                spot.setUnoccupied(false);
+                return spot;
+            }
+        }}
+        System.out.println("No more free parking lots in the selected floor");
+        return null;
+    }}

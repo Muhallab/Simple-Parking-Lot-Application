@@ -12,6 +12,7 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
 import javafx.event.ActionEvent;
@@ -34,6 +35,7 @@ import javafx.scene.text.Font;
  */
 public class ManagerState extends AppState{
     Scene managerScene;
+    Vehicle vehicle = new Vehicle(Vehicle.VehicleType.CAR, "temp") {};
 	@Override
 	public void setGUI(ParkingApp app){
 		Pane managerPane = new Pane();
@@ -56,25 +58,25 @@ public class ManagerState extends AppState{
 		setDimensions(ticketNumberLabel, 10, 50, 135, managerPane);
 		ticketNumberLabel.setText("Ticket Number");
 		ticketNumberLabel.setAlignment(Pos.CENTER_RIGHT);
-		ticketNumberLabel.setFont(new Font("Calibri", 20));
+		ticketNumberLabel.setFont(new Font("Calibri", 15));
 		
 		TextField ticketNumberField = new TextField();
 		setDimensions(ticketNumberField, 155, 50, 135, managerPane);
                
                 Button modifyTicketButton = new Button();
 		setDimensions(modifyTicketButton, 10, 100, 280, managerPane);
-		modifyTicketButton.setText("Modify Ticket");
-//        	createUserButton.setOnAction(new createUserEventHandler( ticketNumberField));
-		
-		Button createUserButton = new Button();
-		setDimensions(createUserButton, 10, 130, 280, managerPane);
-		createUserButton.setText("Delete Ticket");
-		createUserButton.setOnAction(new deleteUserEventHandler(ticketNumberField));
+		modifyTicketButton.setText("Reset issue time");
+        	modifyTicketButton.setOnAction(new modifyUserEventHandler(ticketNumberField));
 		
 		Button deleteUserButton = new Button();
-		setDimensions(deleteUserButton, 10, 160, 280, managerPane);
-		deleteUserButton.setText("Add Ticket");
-//		deleteUserButton.setOnAction(new deleteUserEventHandler(usernameField));
+		setDimensions(deleteUserButton, 10, 130, 280, managerPane);
+		deleteUserButton.setText("Delete Ticket");
+		deleteUserButton.setOnAction(new deleteUserEventHandler(ticketNumberField));
+		
+		Button addUserButton = new Button();
+		setDimensions(addUserButton, 10, 160, 280, managerPane);
+		addUserButton.setText("Add Ticket");
+		addUserButton.setOnAction(new addUserEventHandler());
 		
 		Line bottomLineBreak = new Line();
 		bottomLineBreak.setStartX(0);
@@ -173,4 +175,35 @@ public class ManagerState extends AppState{
 		c.setLayoutY(positionY);
 		pane.getChildren().add(c);
 	}
-}
+
+    private static class addUserEventHandler implements EventHandler<ActionEvent> {
+
+        @Override
+        public void handle(ActionEvent event) {
+			ParkingApp.getSingletonMain().setState(new RegistrationState());
+        }
+
+ 
+    }
+
+    private class modifyUserEventHandler implements EventHandler<ActionEvent> {
+            TextField ticketNumber;
+            public modifyUserEventHandler(TextField ticketNumber) {
+                this.ticketNumber = ticketNumber;
+            }
+
+            @Override
+            public void handle(ActionEvent event) {
+                    File file = new File(ParkingApp.getSingletonMain().currentDirectory + ticketNumber.getText() + ".txt");  
+            	if(file.exists()){
+                vehicle = vehicle.getVehicleWithTicketNumber(Long.parseLong(file.getName().replace(".txt", "")));              
+                vehicle.getTicket().setIssueTime(LocalDateTime.now());
+                Alert success = new Alert(Alert.AlertType.NONE, "Ticket issue time has been reset", ButtonType.OK);
+		success.setTitle("Success");
+		success.showAndWait();
+                }
+
+            }
+
+        }
+        }

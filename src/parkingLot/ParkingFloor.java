@@ -14,33 +14,33 @@ import java.util.ArrayList;
 class ParkingFloor {
     static ArrayList<ParkingFloor> floors = new ArrayList<>();
     static int spotNumber;
-    int floorNumber;
+    String floorNumber;
     int maxSpots;
     int availableSpots;
     ArrayList<ParkingSpot> parkingSpots = new ArrayList<>();
     
-    ParkingFloor(int floorNumber){
+    ParkingFloor(String floorNumber){
         this.floorNumber = floorNumber;
         floors.add(this);
         spotNumber = 1;
         for(int spots=0; spots<20 ;spots++){
-            ParkingSpot compactParkingSpots = new CompactSpot(this.getFloorNumber() + spotNumber, floorNumber);
+            ParkingSpot compactParkingSpots = new CompactSpot(this.getFloorNumber() + Integer.toString(spotNumber), floorNumber);
             spotNumber++;
         }
          for(int spots=0; spots<10 ;spots++){
-            ParkingSpot compactParkingSpots = new MotorBikeSpot(this.getFloorNumber() + spotNumber, floorNumber);
+            ParkingSpot motorBikeSpot = new MotorBikeSpot(this.getFloorNumber() + Integer.toString(spotNumber), floorNumber);
             spotNumber++;
         }
         for(int spots=0; spots<10 ;spots++){
-            ParkingSpot compactParkingSpots = new LargeSpot(this.getFloorNumber() + spotNumber, floorNumber);
+            ParkingSpot largeSpot = new LargeSpot(this.getFloorNumber() + Integer.toString(spotNumber), floorNumber);
             spotNumber++;
         }
         for(int spots=0; spots<10 ;spots++){
-            ParkingSpot compactParkingSpots = new HandicappedSpot(this.getFloorNumber() + spotNumber, floorNumber);
+            ParkingSpot handicappedSpot = new HandicappedSpot(this.getFloorNumber() + Integer.toString(spotNumber), floorNumber);
             spotNumber++;
         }
         for(int spots=0; spots<10 ;spots++){
-            ParkingSpot compactParkingSpots = new ElectricSpot(this.getFloorNumber() + spotNumber, floorNumber);
+            ParkingSpot electricSpot = new ElectricSpot(this.getFloorNumber() + Integer.toString(spotNumber), floorNumber);
             spotNumber++;
         }
         this.maxSpots = spotNumber;
@@ -56,7 +56,7 @@ class ParkingFloor {
     
     
 
-    public int getFloorNumber() {
+    public String getFloorNumber() {
         return floorNumber;
     }
 

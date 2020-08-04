@@ -5,17 +5,38 @@
  */
 package parkingLot;
 
+import java.util.ArrayList;
+
 /**
  *
  * @author almuh
  */
 public class HandicappedSpot extends ParkingSpot {
-     public HandicappedSpot(int number, int floorNumber) {
+        static ArrayList<HandicappedSpot> handicappedSpots = new ArrayList<>();
+        public HandicappedSpot(String number, String floorNumber) {
             super(number, floorNumber, ParkingSpotType.HANDICAPPED);
+            handicappedSpots.add(this);
         }
+        public HandicappedSpot(){
+            super("1", "1", ParkingSpotType.HANDICAPPED);
 
+        }
         @Override
-        public int getNumber() {
+        public String getNumber() {
             return number;
         }
+        
+    public ParkingSpot getFreeParkingSpot(String floorNumber){
+        String tempString;
+        for(ParkingSpot spot : handicappedSpots){
+            tempString = spot.getNumber();
+            if(tempString.startsWith(floorNumber)){
+            if(spot.isUnoccupied()){
+                spot.setUnoccupied(false);
+                return spot;
+            }
+        }}
+        System.out.println("No more free parking lots in the selected floor");
+        return null;
+    }
 }

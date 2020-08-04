@@ -5,17 +5,38 @@
  */
 package parkingLot;
 
+import java.util.ArrayList;
+
 /**
  *
  * @author almuh
  */
 public class MotorBikeSpot extends ParkingSpot {
-    public MotorBikeSpot(int number, int floorNumber) {
+        static ArrayList<MotorBikeSpot> motorBikeSpots = new ArrayList<>();
+    public MotorBikeSpot(String number, String floorNumber) {
             super(number, floorNumber, ParkingSpotType.MOTORBIKE);
+            motorBikeSpots.add(this);
         }
 
+    public MotorBikeSpot() {
+            super("1", "1", ParkingSpotType.MOTORBIKE);
+    }
+
         @Override
-        public int getNumber() {
+        public String getNumber() {
             return number;
         }
-}
+
+    public ParkingSpot getFreeParkingSpot(String floorNumber){
+        String tempString;
+        for(ParkingSpot spot : motorBikeSpots){
+            tempString = spot.getNumber();
+            if(tempString.startsWith(floorNumber)){
+            if(spot.isUnoccupied()){
+                spot.setUnoccupied(false);
+                return spot;
+            }
+        }}
+        System.out.println("No more free parking lots in the selected floor");
+        return null;
+    }}

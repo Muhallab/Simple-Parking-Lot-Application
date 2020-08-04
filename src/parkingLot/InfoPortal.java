@@ -36,9 +36,8 @@ import javafx.scene.text.Font;
  *
  * @author almuh
  */
-class ElectricPanel extends AppState {
-    Vehicle vehicle = new Vehicle(Vehicle.VehicleType.CAR, "temp") {
-    };;
+class InfoPortal extends AppState {
+    Vehicle vehicle;
     
     @Override
     public void setGUI(ParkingApp app){
@@ -62,11 +61,11 @@ class ElectricPanel extends AppState {
 		balanceLabel.setFont(new Font("Calibri", 20));
                 
                 
-                app.stage4.setTitle("Electric Panel");
-		app.stage4.setScene(ExitPanelScene);
-                app.stage4.setX(150);
-                app.stage4.setY(500);
-		app.stage4.show();
+                app.stage5.setTitle("Info Portal");
+		app.stage5.setScene(ExitPanelScene);
+                app.stage5.setX(1100);
+                app.stage5.setY(500);
+		app.stage5.show();
     }
     private class confirmEventHandler implements EventHandler<ActionEvent> {
         private final TextField ticketNumber;
@@ -77,23 +76,16 @@ class ElectricPanel extends AppState {
         public void handle(ActionEvent e) {
                 File file = new File(ParkingApp.getSingletonMain().currentDirectory + ticketNumber.getText() + ".txt");
                 if(file.exists()){
-                    vehicle = vehicle.getVehicleWithTicketNumber(Long.parseLong(file.getName().replace(".txt", ""))); 
-                    if(vehicle.getType().equals(Vehicle.VehicleType.ELECTRIC)){
-                                        ParkingApp.getSingletonElectricPanel().currentMemberFile = file;
-                                        ParkingApp.getSingletonElectricPanel().setState(new ElectricCustomerState());
+                                        ParkingApp.getSingletonInfoPortal().currentMemberFile = file;
+                                        ParkingApp.getSingletonInfoPortal().setState(new CustomerStateInfoPortal());
                                         
 				}
-                    else{
-                            Alert failed = new Alert(Alert.AlertType.NONE, "Kindly move your car or it will be towed,\n This parking spot is for Electric cars only", ButtonType.OK);
-                            failed.setTitle("Sorry you cant park nor pay here!");
-                            failed.showAndWait();
-                }
-                }
                 else{
 					Alert duplicateUserError = new Alert(Alert.AlertType.NONE, "Ticket does not exist", ButtonType.OK);
 					duplicateUserError.setTitle("Error");
 					duplicateUserError.showAndWait();
 				}
+//                ParkingApp.getSingleton().setState(new RegistrationState());        
         }
 }
     private void setDimensions(Control c, int positionX, int positionY, int width, Pane pane){

@@ -12,11 +12,14 @@ import java.time.LocalDateTime;
  * @author almuh
  */
 public class Electric extends Vehicle {
-
-    public Electric(String licensePlate) {
+    ElectricSpot tempSpot = new ElectricSpot();
+    public Electric(String licensePlate, String floorNumber) {
     super(VehicleType.ELECTRIC, licensePlate);
+    this.assignSpot(tempSpot.getFreeParkingSpot(floorNumber));
+
   }
-   public Electric(String licensePlate, long ticketNumber, LocalDateTime date) {
+   public Electric(String licensePlate, long ticketNumber, LocalDateTime date, String floorNumber) {
     super(VehicleType.ELECTRIC, licensePlate, ticketNumber, date);
+    this.assignSpot(tempSpot.getFreeParkingSpot(floorNumber));
   } 
 }
