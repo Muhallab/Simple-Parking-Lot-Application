@@ -41,7 +41,7 @@ Vehicle vehicle = new Vehicle(Vehicle.VehicleType.CAR, "temp") {
     public void setGUI(ParkingApp app){
         Pane customerPane = new Pane();
         customerScene = new Scene(customerPane,430,300);
-        File file = ParkingApp.getSingletonExitPanel().currentMemberFile;
+        File file = ParkingApp.getSingletonElectricPanel().currentMemberFileElectric;
         vehicle = vehicle.getVehicleWithTicketNumber(Long.parseLong(file.getName().replace(".txt", ""))); 
         ParkingPrice price = new ParkingPrice(vehicle.getTicket().getTicketNumber());
         Balance = price.getPrice();
@@ -124,8 +124,8 @@ Vehicle vehicle = new Vehicle(Vehicle.VehicleType.CAR, "temp") {
                 private class homeEventHandler implements EventHandler<ActionEvent> {
 		@Override
 		public void handle(ActionEvent e) {
-                        ParkingApp.getSingletonExitPanel().currentMemberFile = null;
-			ParkingApp.getSingletonExitPanel().setState(new ExitPanel());
+                        ParkingApp.getSingletonElectricPanel().currentMemberFileElectric = null;
+			ParkingApp.getSingletonElectricPanel().setStateElectric(new ElectricPanel());
 		}}
                 private class proceedEventHandler implements EventHandler<ActionEvent> {
                     ToggleGroup paymentMethod;
@@ -145,9 +145,9 @@ Vehicle vehicle = new Vehicle(Vehicle.VehicleType.CAR, "temp") {
                             success.showAndWait();
                             vehicle.getSpot().setUnoccupied(true);
                             deleteTicket(vehicle.getTicket().getTicketNumber());
-                            ParkingApp.getSingletonDisplayBoard().setState(new ParkingDisplayBoard());
-                            ParkingApp.getSingletonElectricPanel().currentMemberFile = null;
-                            ParkingApp.getSingletonElectricPanel().setState(new ElectricPanel());
+                            ParkingApp.getSingletonDisplayBoard().setStateDisplay(new ParkingDisplayBoard());
+                            ParkingApp.getSingletonElectricPanel().currentMemberFileElectric = null;
+                            ParkingApp.getSingletonElectricPanel().setStateElectric(new ElectricPanel());
                         }}
                         else{
                             Alert success = new Alert(Alert.AlertType.NONE, "Thank you for using our parking lot, Have a nice day!", ButtonType.OK);
@@ -155,16 +155,16 @@ Vehicle vehicle = new Vehicle(Vehicle.VehicleType.CAR, "temp") {
                             success.showAndWait();
                             vehicle.getSpot().setUnoccupied(true);
                             deleteTicket(vehicle.getTicket().getTicketNumber());
-                            ParkingApp.getSingletonDisplayBoard().setState(new ParkingDisplayBoard());
-                            ParkingApp.getSingletonElectricPanel().currentMemberFile = null;
-                            ParkingApp.getSingletonElectricPanel().setState(new ElectricPanel());
+                            ParkingApp.getSingletonDisplayBoard().setStateDisplay(new ParkingDisplayBoard());
+                            ParkingApp.getSingletonElectricPanel().currentMemberFileElectric = null;
+                            ParkingApp.getSingletonElectricPanel().setStateDisplay(new ElectricPanel());
                         }
                     }
                 }
                     
                 
                 private void deleteTicket(long ticketNumber){
-                    File file = new File(ParkingApp.getSingletonMain().currentDirectory + ticketNumber + ".txt");
+                    File file = new File(ParkingApp.getSingletonElectricPanel().currentDirectory + ticketNumber + ".txt");
 			if(file.exists()){
 				file.delete();
                         }

@@ -27,13 +27,9 @@ class ParkingTicket {
     enum parkingStatus{Active, Paid}
     long ticketNumber;
     LocalDateTime issueTime;
-    LocalDateTime paymentTime;
     parkingStatus status;
     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss", Locale.US);
-    void saveInDB() {
-        tickets.add(this);
-        
-    }
+
     
     public long generateTicketNumber(){
               long tempTicketNumber = (long) Math.floor(Math.random() * 9_000_000_000L) + 1_000_000_000L;
@@ -46,7 +42,7 @@ class ParkingTicket {
             return tempTicketNumber;
     }
     public ParkingTicket(){
-        ticketNumber = generateTicketNumber();
+        this.ticketNumber = generateTicketNumber();
         issueTime = LocalDateTime.now();
         status = parkingStatus.Active;
         tickets.add(this);
@@ -84,9 +80,6 @@ class ParkingTicket {
         return issueTime.format(formatter);
     }
 
-    public LocalDateTime getPaymentTime() {
-        return paymentTime;
-    }
     public void setStatus(parkingStatus status){
         this.status = status;
     }

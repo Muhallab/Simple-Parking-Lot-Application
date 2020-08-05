@@ -76,12 +76,12 @@ class ElectricPanel extends AppState {
         }
         @Override
         public void handle(ActionEvent e) {
-                File file = new File(ParkingApp.getSingletonMain().currentDirectory + ticketNumber.getText() + ".txt");
+                File file = new File(ParkingApp.getSingletonElectricPanel().currentDirectory + ticketNumber.getText() + ".txt");
                 if(file.exists()){
                     vehicle = vehicle.getVehicleWithTicketNumber(Long.parseLong(file.getName().replace(".txt", ""))); 
                     if(vehicle.getType().equals(Vehicle.VehicleType.ELECTRIC)){
-                                        ParkingApp.getSingletonElectricPanel().currentMemberFile = file;
-                                        ParkingApp.getSingletonElectricPanel().setState(new ElectricCustomerState());
+                                        ParkingApp.getSingletonElectricPanel().currentMemberFileElectric = file;
+                                        ParkingApp.getSingletonElectricPanel().setStateElectric(new ElectricCustomerState());
                                         
 				}
                     else{

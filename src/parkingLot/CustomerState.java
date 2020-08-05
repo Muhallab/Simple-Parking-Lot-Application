@@ -50,7 +50,7 @@ class CustomerState extends AppState {
     public void setGUI(ParkingApp app){
         Pane customerPane = new Pane();
         customerScene = new Scene(customerPane,430,300);
-        File file = ParkingApp.getSingletonExitPanel().currentMemberFile;
+        File file = ParkingApp.getSingletonExitPanel().currentMemberFileExit;
         vehicle = vehicle.getVehicleWithTicketNumber(Long.parseLong(file.getName().replace(".txt", ""))); 
         ParkingPrice price = new ParkingPrice(vehicle.getTicket().getTicketNumber());
         Balance = price.getPrice();
@@ -120,8 +120,8 @@ class CustomerState extends AppState {
                 private class homeEventHandler implements EventHandler<ActionEvent> {
 		@Override
 		public void handle(ActionEvent e) {
-                        ParkingApp.getSingletonExitPanel().currentMemberFile = null;
-			ParkingApp.getSingletonExitPanel().setState(new ExitPanel());
+                        ParkingApp.getSingletonExitPanel().currentMemberFileExit = null;
+			ParkingApp.getSingletonExitPanel().setStateExit(new ExitPanel());
 		}}
                 private class proceedEventHandler implements EventHandler<ActionEvent> {
                     ToggleGroup paymentMethod;
@@ -141,9 +141,9 @@ class CustomerState extends AppState {
                             vehicle.getSpot().setUnoccupied(true);
                             success.showAndWait();
                             deleteTicket(vehicle.getTicket().getTicketNumber());
-                            ParkingApp.getSingletonDisplayBoard().setState(new ParkingDisplayBoard());
-                            ParkingApp.getSingletonExitPanel().currentMemberFile = null;
-                            ParkingApp.getSingletonExitPanel().setState(new ExitPanel());
+                            ParkingApp.getSingletonDisplayBoard().setStateDisplay(new ParkingDisplayBoard());
+                            ParkingApp.getSingletonExitPanel().currentMemberFileExit = null;
+                            ParkingApp.getSingletonExitPanel().setStateExit(new ExitPanel());
                         }}
                         else{
                             Alert success = new Alert(Alert.AlertType.NONE, "Thank you for using our parking lot, Have a nice day!", ButtonType.OK);
@@ -151,9 +151,9 @@ class CustomerState extends AppState {
                             vehicle.getSpot().setUnoccupied(true);
                             deleteTicket(vehicle.getTicket().getTicketNumber());
                             success.showAndWait();
-                            ParkingApp.getSingletonDisplayBoard().setState(new ParkingDisplayBoard());
-                            ParkingApp.getSingletonExitPanel().currentMemberFile = null;
-                            ParkingApp.getSingletonExitPanel().setState(new ExitPanel());
+                            ParkingApp.getSingletonDisplayBoard().setStateDisplay(new ParkingDisplayBoard());
+                            ParkingApp.getSingletonExitPanel().currentMemberFileExit = null;
+                            ParkingApp.getSingletonExitPanel().setStateExit(new ExitPanel());
                         }
                     }
                 }

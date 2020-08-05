@@ -44,6 +44,21 @@ public class ParkingDisplayBoard extends AppState {
   
         @Override
 	public void setGUI(ParkingApp app){
+            compactFreeSpot1=0;
+            compactFreeSpot2=0;
+            compactFreeSpot3=0;
+            largeFreeSpot1=0;
+            largeFreeSpot2=0;
+            largeFreeSpot3=0;
+            handicappedFreeSpot1=0;
+            handicappedFreeSpot2=0;
+            handicappedFreeSpot3=0;
+            motorbikeFreeSpot1=0;
+            motorbikeFreeSpot2=0;
+            motorbikeFreeSpot3=0;
+            electricFreeSpot1=0;
+            electricFreeSpot2=0;
+            electricFreeSpot3=0;
             String msg = showEmptySpotNumber();
             Label label = new Label(msg);
             DisplayBoard = new Scene(label,300,400);
@@ -56,21 +71,7 @@ public class ParkingDisplayBoard extends AppState {
 
   public String showEmptySpotNumber() {
     String message = "";
-    compactFreeSpot1=0;
-    compactFreeSpot2=0;
-    compactFreeSpot3=0;
-    largeFreeSpot1=0;
-    largeFreeSpot2=0;
-    largeFreeSpot3=0;
-    handicappedFreeSpot1=0;
-    handicappedFreeSpot2=0;
-    handicappedFreeSpot3=0;
-    motorbikeFreeSpot1=0;
-    motorbikeFreeSpot2=0;
-    motorbikeFreeSpot3=0;
-    electricFreeSpot1=0;
-    electricFreeSpot2=0;
-    electricFreeSpot3=0;
+    
     message += "Floor 1 \n";
     for(ParkingSpot spot : handicappedSpots ){
         if(spot.getNumber().startsWith(Integer.toString(1))){
@@ -129,7 +130,7 @@ public class ParkingDisplayBoard extends AppState {
             message += "Electric Spots are full";
             }
              else{
-            message += "Electric Large Spots: " + electricFreeSpot1;
+            message += "Free Electric Spots: " + electricFreeSpot1;
     }
             message += "\n\nFloor 2 \n";
     for(ParkingSpot spot : handicappedSpots ){
@@ -189,7 +190,7 @@ public class ParkingDisplayBoard extends AppState {
             message += "Electric Spots are full";
             }
              else{
-            message += "Electric Large Spots: " + electricFreeSpot2;
+            message += "Free Electric Spots: " + electricFreeSpot2;
     }   
             message += "\n\nFloor 3 \n";
     for(ParkingSpot spot : handicappedSpots ){
@@ -249,7 +250,7 @@ public class ParkingDisplayBoard extends AppState {
             message += "Electric Spots are full";
             }
              else{
-            message += "Electric Large Spots: " + electricFreeSpot3;
+            message += "Free Electric Spots: " + electricFreeSpot3;
     }
             return message;
   }

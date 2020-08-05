@@ -74,10 +74,10 @@ class InfoPortal extends AppState {
         }
         @Override
         public void handle(ActionEvent e) {
-                File file = new File(ParkingApp.getSingletonMain().currentDirectory + ticketNumber.getText() + ".txt");
+                File file = new File(ParkingApp.getSingletonInfoPortal().currentDirectory + ticketNumber.getText() + ".txt");
                 if(file.exists()){
-                                        ParkingApp.getSingletonInfoPortal().currentMemberFile = file;
-                                        ParkingApp.getSingletonInfoPortal().setState(new CustomerStateInfoPortal());
+                                        ParkingApp.getSingletonInfoPortal().currentMemberFileInfo = file;
+                                        ParkingApp.getSingletonInfoPortal().setStateInfo(new CustomerStateInfoPortal());
                                         
 				}
                 else{

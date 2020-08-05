@@ -14,7 +14,6 @@ import java.time.LocalDateTime;
  */
 class ParkingPrice {
     int Hours;
-    double rate;
     double price=0;
     ParkingTicket ticket;
     LocalDateTime currently;

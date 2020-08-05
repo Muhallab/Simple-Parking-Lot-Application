@@ -95,47 +95,9 @@ public class ManagerState extends AppState{
 		app.stage1.show();
 	}
 	
-	private static class createUserEventHandler implements EventHandler<ActionEvent> {
-		private final TextField ticketNumberField;
-		public createUserEventHandler(TextField ticketNumberField) {
-			this.ticketNumberField = ticketNumberField;
-		}
-		@Override
-		public void handle(ActionEvent e) {
-			//Check if file exists
-                        
-//			if(ticketNumberField.getText().matches("[a-zA-Z0-9]+") && passwordField.getText().matches("[a-zA-Z0-9]+")){
-//				File file = new File(ParkingApp.getSingleton().currentDirectory + usernameField.getText() + ".txt");
-//				System.out.println(usernameField.getText());
-//				if(file.exists()){
-//					Alert duplicateUserError = new Alert(Alert.AlertType.NONE, "User creation failed - Only unique usernames allowed", ButtonType.OK);
-//					duplicateUserError.setTitle("Account Creation Attempt Detected");
-//					duplicateUserError.showAndWait();
-//				}else{
-//					try{
-//						List<String> lines = Arrays.asList(""+passwordField.getText()+"",""+100.00+"");
-//						Path path = Paths.get(ParkingApp.getSingleton().currentDirectory + usernameField.getText() + ".txt");
-//						Files.write(path, lines, StandardCharsets.UTF_8);
-//						Alert userCreationSuccess = new Alert(Alert.AlertType.NONE, "User creation success - User created with $100.00", ButtonType.OK);
-//						userCreationSuccess.setTitle("Account Creation Attempt Detected");
-//						userCreationSuccess.showAndWait();
-//					}catch(IOException error){
-//						Alert fileCreationError = new Alert(Alert.AlertType.NONE, "User creation failed - File Creation Error", ButtonType.OK);
-//						fileCreationError.setTitle("Account Creation Attempt Detected");
-//						fileCreationError.showAndWait();
-//					}
-//				}
-//			}else{
-//				System.out.println(usernameField.getText().matches("[a-zA-Z0-9]+"));
-//				System.out.println(passwordField.getText().matches("[a-zA-Z0-9]+"));
-//				Alert userInputError = new Alert(Alert.AlertType.NONE, "User creation failed - Only alphanumerics allowed in username & password", ButtonType.OK);
-//				userInputError.setTitle("Account Creation Attempt Detected");
-//				userInputError.showAndWait();
-//			}
-		}
-	}
 	
-	private static class deleteUserEventHandler implements EventHandler<ActionEvent> {
+	
+	private class deleteUserEventHandler implements EventHandler<ActionEvent> {
 		private final TextField ticketNumber;
 		public deleteUserEventHandler(TextField ticketNumber) {
 			this.ticketNumber = ticketNumber;
@@ -144,10 +106,14 @@ public class ManagerState extends AppState{
 		public void handle(ActionEvent e) {
 			File file = new File(ParkingApp.getSingletonMain().currentDirectory + ticketNumber.getText() + ".txt");
 			if(file.exists()){
+                                vehicle = vehicle.getVehicleWithTicketNumber(Long.parseLong(ticketNumber.getText()));
+                                vehicle.getSpot().setUnoccupied(true);
 				file.delete();
 				Alert userDeletionSuccess = new Alert(Alert.AlertType.NONE, "Ticket deletion success - Ticket file deleted", ButtonType.OK);
 				userDeletionSuccess.setTitle("Ticket Deletion Attempt Detected");
 				userDeletionSuccess.showAndWait();
+                                ParkingApp.getSingletonDisplayBoard().setStateDisplay(new ParkingDisplayBoard());
+
 			}else{
 				Alert userNotFoundError = new Alert(Alert.AlertType.NONE, "Ticket deletion failed - Ticket not found", ButtonType.OK);
 				userNotFoundError.setTitle("Ticket Deletion Attempt Detected");
@@ -162,7 +128,7 @@ public class ManagerState extends AppState{
 			Alert logoutDetected = new Alert(Alert.AlertType.NONE, "Logging out...", ButtonType.OK);
 			logoutDetected.setTitle("Logout Attempt Detected");
 			logoutDetected.showAndWait();
-			ParkingApp.getSingletonMain().setState(new EntrancePanel());
+			ParkingApp.getSingletonMain().setStateMain(new EntrancePanel());
 		}
 	}	
 	
@@ -180,7 +146,7 @@ public class ManagerState extends AppState{
 
         @Override
         public void handle(ActionEvent event) {
-			ParkingApp.getSingletonMain().setState(new RegistrationState());
+			ParkingApp.getSingletonMain().setStateMain(new RegistrationState());
         }
 
  

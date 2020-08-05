@@ -50,7 +50,7 @@ class CustomerStateInfoPortal extends AppState {
     public void setGUI(ParkingApp app){
         Pane customerPane = new Pane();
         customerScene = new Scene(customerPane,430,300);
-        File file = ParkingApp.getSingletonExitPanel().currentMemberFile;
+        File file = ParkingApp.getSingletonInfoPortal().currentMemberFileInfo;
         vehicle = vehicle.getVehicleWithTicketNumber(Long.parseLong(file.getName().replace(".txt", ""))); 
         ParkingPrice price = new ParkingPrice(vehicle.getTicket().getTicketNumber());
         Balance = price.getPrice();
@@ -115,8 +115,8 @@ class CustomerStateInfoPortal extends AppState {
                 private class homeEventHandler implements EventHandler<ActionEvent> {
 		@Override
 		public void handle(ActionEvent e) {
-                        ParkingApp.getSingletonInfoPortal().currentMemberFile = null;
-			ParkingApp.getSingletonInfoPortal().setState(new InfoPortal());
+                        ParkingApp.getSingletonInfoPortal().currentMemberFileInfo = null;
+			ParkingApp.getSingletonInfoPortal().setStateInfo(new InfoPortal());
 		}}
                 private class proceedEventHandler implements EventHandler<ActionEvent> {
                     ToggleGroup paymentMethod;
@@ -130,13 +130,13 @@ class CustomerStateInfoPortal extends AppState {
                             success.setTitle("Payment successful");
                             success.showAndWait();
                             vehicle.getTicket().setStatus(ParkingTicket.parkingStatus.Paid);
-                            ParkingApp.getSingletonInfoPortal().setState(new InfoPortal());
+                            ParkingApp.getSingletonInfoPortal().setStateInfo(new InfoPortal());
                             
                         } else {
                             Alert failed = new Alert(Alert.AlertType.NONE, "Ticket is already paid", ButtonType.OK);
                             failed.setTitle("Error");
                             failed.showAndWait();
-                            ParkingApp.getSingletonInfoPortal().setState(new InfoPortal());
+                            ParkingApp.getSingletonInfoPortal().setStateInfo(new InfoPortal());
                         }
                         
                 }}

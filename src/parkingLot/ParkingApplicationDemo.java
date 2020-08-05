@@ -42,23 +42,23 @@ public class ParkingApplicationDemo extends Application{
 	@Override
 	public void start(Stage primaryStage){
 		ParkingApp.getSingletonMain().stage1 = primaryStage;
-		ParkingApp.getSingletonMain().setState(new EntrancePanel());
+		ParkingApp.getSingletonMain().setStateMain(new EntrancePanel());
                 
                 Stage secondaryStage = new Stage();
                 ParkingApp.getSingletonExitPanel().stage2 = secondaryStage ;
-		ParkingApp.getSingletonExitPanel().setState(new ExitPanel());
+		ParkingApp.getSingletonExitPanel().setStateExit(new ExitPanel());
                 
                 Stage DisplayBoardStage = new Stage();
-                ParkingApp.getSingletonExitPanel().stage3 = DisplayBoardStage ;
-		ParkingApp.getSingletonExitPanel().setState(new ParkingDisplayBoard());
+                ParkingApp.getSingletonDisplayBoard().stage3 = DisplayBoardStage ;
+		ParkingApp.getSingletonDisplayBoard().setStateDisplay(new ParkingDisplayBoard());
                 
                 Stage ElectricPanelStage = new Stage();
-                ParkingApp.getSingletonExitPanel().stage4 = ElectricPanelStage ;
-		ParkingApp.getSingletonExitPanel().setState(new ElectricPanel());
+                ParkingApp.getSingletonElectricPanel().stage4 = ElectricPanelStage ;
+		ParkingApp.getSingletonElectricPanel().setStateElectric(new ElectricPanel());
                 
                 Stage infoPanelStage = new Stage();
                 ParkingApp.getSingletonInfoPortal().stage5 = infoPanelStage ;
-		ParkingApp.getSingletonInfoPortal().setState(new InfoPortal());
+		ParkingApp.getSingletonInfoPortal().setStateInfo(new InfoPortal());
 	}
 	public static void main(String[] args){
 		launch(args);

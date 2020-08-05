@@ -74,10 +74,10 @@ class ExitPanel extends AppState {
         }
         @Override
         public void handle(ActionEvent e) {
-                File file = new File(ParkingApp.getSingletonMain().currentDirectory + ticketNumber.getText() + ".txt");
+                File file = new File(ParkingApp.getSingletonExitPanel().currentDirectory + ticketNumber.getText() + ".txt");
                 if(file.exists()){
-                                        ParkingApp.getSingletonExitPanel().currentMemberFile = file;
-                                        ParkingApp.getSingletonExitPanel().setState(new CustomerState());
+                                        ParkingApp.getSingletonExitPanel().currentMemberFileExit = file;
+                                        ParkingApp.getSingletonExitPanel().setStateExit(new CustomerState());
                                         
 				}
                 else{
@@ -85,7 +85,6 @@ class ExitPanel extends AppState {
 					duplicateUserError.setTitle("Error");
 					duplicateUserError.showAndWait();
 				}
-//                ParkingApp.getSingleton().setState(new RegistrationState());        
         }
 }
     private void setDimensions(Control c, int positionX, int positionY, int width, Pane pane){

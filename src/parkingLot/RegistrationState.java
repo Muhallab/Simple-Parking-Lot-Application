@@ -148,7 +148,7 @@ public class RegistrationState extends AppState {
     private static class homeEventHandler implements EventHandler<ActionEvent> {
 		@Override
 		public void handle(ActionEvent e) {
-			ParkingApp.getSingletonMain().setState(new EntrancePanel());
+			ParkingApp.getSingletonMain().setStateMain(new EntrancePanel());
 		}}  
     private class confirmEventHandler implements EventHandler<ActionEvent> {
         private final TextField licensePlate;
@@ -183,12 +183,12 @@ public class RegistrationState extends AppState {
 						Files.write(path, lines, StandardCharsets.UTF_8);
                                                 LocalDateTime dateNow = null;
 						Alert userCreationSuccess = new Alert(Alert.AlertType.NONE, "Vehicle registration success - Vehicle entered parking lot at " + vehicle.getTicket().getIssueTime() + "\nTicketNumber: " + vehicle.getTicket().getTicketNumber(), ButtonType.OK);
-						userCreationSuccess.setTitle("Account Creation Attempt Detected");
+						userCreationSuccess.setTitle("Ticket Creation Attempt Detected");
 						userCreationSuccess.showAndWait();
-                                                ParkingApp.getSingletonDisplayBoard().setState(new ParkingDisplayBoard());
+                                                ParkingApp.getSingletonDisplayBoard().setStateDisplay(new ParkingDisplayBoard());
 					}catch(IOException error){
 						Alert fileCreationError = new Alert(Alert.AlertType.NONE, "Vehicle registration failed - File Creation Error", ButtonType.OK);
-						fileCreationError.setTitle("Account Creation Attempt Detected");
+						fileCreationError.setTitle("Ticket Creation Attempt Detected");
 						fileCreationError.showAndWait();
 					} catch (ParseException ex) {
                         Logger.getLogger(RegistrationState.class.getName()).log(Level.SEVERE, null, ex);

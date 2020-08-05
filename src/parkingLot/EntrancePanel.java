@@ -130,7 +130,7 @@ public class EntrancePanel extends AppState {
 
         @Override
         public void handle(ActionEvent e) {
-                ParkingApp.getSingletonMain().setState(new RegistrationState());        }
+                ParkingApp.getSingletonMain().setStateMain(new RegistrationState());        }
     
 }
 	private static class loginEventHandler implements EventHandler<ActionEvent> {
@@ -148,7 +148,7 @@ public class EntrancePanel extends AppState {
 				Alert managerAttemptSuccess = new Alert(AlertType.NONE, "Manager Login Success", ButtonType.OK);
 				managerAttemptSuccess.setTitle("Login Attempt Detected");
 				managerAttemptSuccess.showAndWait();
-				ParkingApp.getSingletonMain().setState(new ManagerState());
+				ParkingApp.getSingletonMain().setStateMain(new ManagerState());
 			}else{
 				Alert managerAttemptFailure = new Alert(AlertType.NONE, "Login Failed - Incorrect admin credentials", ButtonType.OK);
 				managerAttemptFailure.setTitle("Login Attempt Detected");
@@ -212,7 +212,6 @@ public class EntrancePanel extends AppState {
                 localDate = convertToLocalDateTime(date);
                 floorNumber = reader.readLine();
             } catch (FileNotFoundException ex) {
-                System.out.println("YOOOOOOOOOOOO SOMETHINGS WRONG");
                 Logger.getLogger(RegistrationState.class.getName()).log(Level.SEVERE, null, ex);
             }
             makeVehicle(tempVehicleType,tempLicensePlate,Long.parseLong(file.getName().replace(".txt", "")),localDate, floorNumber);
