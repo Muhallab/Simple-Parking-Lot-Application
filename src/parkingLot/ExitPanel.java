@@ -38,11 +38,11 @@ import javafx.scene.text.Font;
  */
 class ExitPanel extends AppState {
     Vehicle vehicle;
-    
+    Scene ExitPanelScene;
     @Override
     public void setGUI(ParkingApp app){
         Pane exitPane = new Pane();
-        Scene ExitPanelScene = new Scene(exitPane,400,200);
+        ExitPanelScene = new Scene(exitPane,400,200);
         DateTimeFormatter date = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");  
         LocalDateTime now = LocalDateTime.now();
         TextField licensePlate = new TextField();

@@ -25,7 +25,7 @@ import static parkingLot.MotorBikeSpot.motorBikeSpots;
  * @author almuh
  */
 public class ParkingDisplayBoard extends AppState {
-  Scene DisplayBoard;
+   Scene DisplayBoard;
    static int handicappedFreeSpot1;
    static int compactFreeSpot1;
    static int largeFreeSpot1;

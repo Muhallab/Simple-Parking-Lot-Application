@@ -31,13 +31,18 @@ public class ParkingApp {
 	//Modifies : In the case that the ParkingApp object was not instantiated, it modifies AppInstance to point to the singular instantiation of the object
 	//Effects  : Ensures no duplicates of the program
 	public static ParkingApp getSingletonMain(){return AppInstance==null ? AppInstance = new ParkingApp() : AppInstance;}
-	public static ParkingApp getSingletonExitPanel(){return AppInstanceExit==null ? AppInstanceExit = new ParkingApp() : AppInstanceExit;}
-	public static ParkingApp getSingletonDisplayBoard(){return AppInstanceExit==null ? AppInstanceExit = new ParkingApp() : AppInstanceExit;}
-        public static ParkingApp getSingletonElectricPanel(){return AppInstanceExit==null ? AppInstanceExit = new ParkingApp() : AppInstanceExit;}
-        public static ParkingApp getSingletonInfoPortal(){return AppInstanceExit==null ? AppInstanceExit = new ParkingApp() : AppInstanceExit;}
+	public static ParkingApp getSingletonExitPanel(){return AppInstance==null ? AppInstance = new ParkingApp() : AppInstance;}
+	public static ParkingApp getSingletonDisplayBoard(){return AppInstance==null ? AppInstance = new ParkingApp() : AppInstance;}
+        public static ParkingApp getSingletonElectricPanel(){return AppInstance==null ? AppInstance = new ParkingApp() : AppInstance;}
+        public static ParkingApp getSingletonInfoPortal(){return AppInstance==null ? AppInstance = new ParkingApp() : AppInstance;}
 
 	private static ParkingApp AppInstance = null;
-	private static ParkingApp AppInstanceExit = null;
+//	private static ParkingApp AppInstanceExit = null;
+//        private static ParkingApp AppInstanceDisplay = null;
+//	private static ParkingApp AppInstanceElectric = null;
+//	private static ParkingApp AppInstanceInfo = null;
+
+        
 	
 	//Private Constructor - To ensure no undesired copies of the ParkingApp are able to be constructed
 	//Requires : Nothing
