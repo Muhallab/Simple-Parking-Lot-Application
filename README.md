@@ -1,5 +1,5 @@
 # Parking-Lot-Application
-This parking lot application is build based on the follwoing requirements:
+This parking lot application is built based on the follwoing requirements:
 
 -The parking lot should have multiple floors where customers can park their cars.
 
